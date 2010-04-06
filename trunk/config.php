@@ -11,5 +11,5 @@
     );
 
     define('PW2_VERSION', '0.0.2');
-    define('PW2_PATH', $PW2_CONFIG['path']);
+    define('PW2_PATH', $PW2_CONFIG['path']);;
 ?>
