@@ -1,0 +1,44 @@
+* { color: #3d3d3d; font-family: "Trebuchet MS", Verdana, Arial, sans-serif; font-size: 12px; }
+body { background-color: #c5c5c5; height: 100%; margin: 0px; text-align: center; }
+
+p { margin: 2px; }
+a { border-bottom: 1px dashed #2fa426; color: #000; text-decoration: none; }
+a:hover { border-bottom-style: solid; }
+
+h1 { border-bottom: 1px dashed #2fa426; color: #000; font-size: 18px; font-weight: bold; text-transform: uppercase; }
+h2 { color: #2fa426; display: inline; margin: 0; }
+
+#content { background: #fff; border: 1px solid #b9b9b9; margin: 15px auto; min-height: 100%; padding: 15px; text-align: left; width: 900px; }
+#left-column { float: left; width: 625px; }
+
+#subheader { height: 47px; margin: 0; }
+#subheader img { float: left; }
+#subheader p { color: #000; font-size: 20px; margin: 0; padding-top: 0; text-align: right; text-transform: uppercase; }
+#subheader p.right-side { color: #2fa426; font-size: 12px; padding-top: 0; }
+
+#menu { margin: 10px; }
+#menu ul { background-color: #2fa426; padding: 5px;}
+#menu li { display: inline; list-style-type: none; margin: 10px; }
+#menu li a { font-size: 15px; border: none; color: #fff;  padding: 5px; }
+#menu li a:hover { background-color: #1db811; }
+
+#description { font-size: 20px; }
+
+.right-block { background-color: #f8f8f8; border: 1px solid #f3f3f3; float: right; margin-bottom: 5px; padding: 5px; text-align: center; width: 250px; }
+.right-block img { border: 1px solid #fff; height: 135px; margin-right: 5px; width: 135px; }
+.right-block p { font-family: Verdana, Arial, sans-serif; margin: 2px; text-align: justify; }
+.right-block p.side-title { color: #2fa426; font-weight: bold; }
+.right-block input[type=button] { border: 1px solid #b9b9b9; color: #2fa426; margin-bottom: 5px; width: 150px; }
+
+.section { margin: 10px; }
+.section p { font-size: 12px; }
+.section .two-element { display: block; height: 18px; }
+.section .float-left { float: left; }
+.section .float-right, .float-right-strong { float: right; }
+.section .float-right-strong { font-weight: bold; }
+.section .description { font-style: italic; }
+.section ul { margin: 5px; padding-left: 22px; }
+.section ul.information { margin-bottom: 7px; padding-left: 30px; }
+.section ul li { list-style-type: square; text-align: justify; }
+
+#content:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
