@@ -6,21 +6,26 @@ a { border-bottom: 1px dashed #2fa426; color: #000; text-decoration: none; }
 a:hover { border-bottom-style: solid; }
 
 h1 { border-bottom: 1px dashed #2fa426; color: #000; font-size: 18px; font-weight: bold; text-transform: uppercase; }
-h2 { color: #2fa426; display: inline; margin: 0; }
+h2, h2.online, h2.offline, h2.waiting { font-size: 16px; color: #2fa426; margin: 0; font-weight: bold; }
+h2.offline { color: #ff0000; }
+h2.waiting { color: #bebebe; }
 
 #content { background: #fff; border: 1px solid #b9b9b9; margin: 15px auto; min-height: 100%; padding: 15px; text-align: left; width: 900px; }
 #left-column { float: left; width: 625px; }
 
-#subheader { height: 47px; margin: 0; }
+#subheader { height: 47px; margin: 0; margin-right: 10px; }
 #subheader img { float: left; }
 #subheader p { color: #000; font-size: 20px; margin: 0; padding-top: 0; text-align: right; text-transform: uppercase; }
 #subheader p.right-side { color: #2fa426; font-size: 12px; padding-top: 0; }
 
-#menu { margin: 10px; }
-#menu ul { background-color: #2fa426; padding: 5px;}
-#menu li { display: inline; list-style-type: none; margin: 10px; }
-#menu li a { font-size: 15px; border: none; color: #fff;  padding: 5px; }
-#menu li a:hover { background-color: #1db811; }
+.menu { margin: 10px; }
+.menu ul { background-color: #2fa426; padding: 5px; }
+.menu ul.page-menu { background-color: #ececec; }
+.menu li { display: inline; list-style-type: none; margin: 10px; }
+.menu li a { font-size: 15px; border: none; color: #fff;  padding: 5px; }
+.menu li a:hover { background-color: #1db811; }
+.page-menu li a { font-size: 15px; border: none; color: #000;  padding: 5px; }
+.page-menu li a:hover { background-color: #e0e0e0; }
 
 #description { font-size: 20px; }
 
@@ -40,5 +45,8 @@ h2 { color: #2fa426; display: inline; margin: 0; }
 .section ul { margin: 5px; padding-left: 22px; }
 .section ul.information { margin-bottom: 7px; padding-left: 30px; }
 .section ul li { list-style-type: square; text-align: justify; }
+.section li { padding: 2px; }
 
 #content:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+
+div.info { border-bottom: 1px dashed #000; color: #000; font-size: 12px; padding-bottom: 2px; }
