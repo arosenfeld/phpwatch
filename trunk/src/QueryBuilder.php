@@ -17,10 +17,12 @@
 
         protected abstract function connect();
 
-        public abstract function query($sql);
+        protected abstract function query($sql);
         public abstract function executeSelect($fields, $table, $suffix);
         public abstract function executeSelectOne($fields, $table, $suffix);
         public abstract function executeInsert($fields, $table);
         public abstract function executeUpdate($fields, $table, $suffix);
+        public abstract function executeRaw($sql);
+        public abstract function numRecords($result);
     }
 ?>

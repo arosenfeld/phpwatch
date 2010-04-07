@@ -49,5 +49,18 @@
                 $updates[] = $k . '=\'' . $v . '\'';
             return $this->query('UPDATE `' . $table . '` SET ' . implode(',', $updates) . ' ' . $suffix);
         }
+
+        public function executeRaw($query)
+        {
+            $result = $this->query($query);
+            while($row = $this->fetchAssoc($result))
+                $rows[] = $row;
+            return $rows;
+        }
+
+        public function numRecords($result)
+        {
+            return mysql_num_rows($result);
+        }
     }
 ?>

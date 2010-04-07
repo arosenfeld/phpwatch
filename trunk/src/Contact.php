@@ -50,9 +50,9 @@
             $this->id = $db_row['id'];
             $this->name = $db_row['name'];
             $this->notification_channels = array();
-            if(strlen($db_row['notification_channels']) > 0)
-                foreach(explode(',', $db_row['notification_channels']) as $channel)
-                    $this->notification_channels[] = Channel::fetch(intval($channel));
+            $ch_rows = $GLOBALS['PW_DB']->executeSelect('*', 'channels', 'WHERE owner=' . intval($this->id));
+            foreach($ch_rows as $row)
+                $this->notification_channels[] = Channel::fetch($row);
         }
 
         public function addChannel($channel)
@@ -71,14 +71,15 @@
 
         public function saveToDb()
         {
-            $values = array(
-                'name' => $this->name,
-                'notification_channels' => implode(',', $this->getChanIds()),
-            );
+            $values = array( 'name' => $this->name );
             if($this->id === null)
                 $this->id = $GLOBALS['PW_DB']->executeInsert($values, 'contacts');
             else
                 $GLOBALS['PW_DB']->executeUpdate($values, 'contacts', 'WHERE id=' . intval($this->id));
+            $values = array( 'owner' => 0 );
+            $GLOBALS['PW_DB']->executeUpdate($values, 'channels', 'WHERE owner=' . intval($this->id));
+            $values = array( 'owner' => $this->id );
+            $GLOBALS['PW_DB']->executeUpdate($values, 'channels', 'WHERE id IN (' . implode(',', $this->getChanIds()) . ')');
         }
 
         private function getChanIds()

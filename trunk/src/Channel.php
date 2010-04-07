@@ -3,6 +3,7 @@
     abstract class Channel implements DbObject
     {
         protected $id;
+        protected $owner;
         protected $config;
 
         public function __construct($data = null)
@@ -18,6 +19,7 @@
             else
             {
                 $this->id = null;
+                $this->owner = 0;
                 $this->config = array();
             }
         }
@@ -36,6 +38,7 @@
         public function loadByRow($db_row)
         {
             $this->id = $db_row['id'];
+            $this->owner = $db_row['owner'];
             $this->config = unserialize($db_row['config']);
         }
 
@@ -43,6 +46,7 @@
         {
             $values = array(
                 'type' => get_class($this),
+                'owner' => $this->owner,
                 'config' => serialize($this->config)
             );
             if($this->id === null)

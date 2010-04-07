@@ -70,6 +70,16 @@
             return $this->alias;
         }
 
+        public function getStatus()
+        {
+            return $this->status;
+        }
+
+        public function getLastQuery()
+        {
+            return $this->last_query;
+        }
+
         public function loadById($id)
         {
             $db_row = $GLOBALS['PW_DB']->executeSelectOne('*', 'monitors', 'WHERE id=' . intval($id));
@@ -191,7 +201,7 @@
             return $up;
         }
 
-        private function getChanIds()
+        public function getChanIds()
         {
             $ids = array();
             foreach($this->notification_channels as $channel)
