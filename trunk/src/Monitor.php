@@ -55,6 +55,11 @@
             }
         }
 
+        public function getId()
+        {
+            return $this->id;
+        }
+
         public function getHostname()
         {
             return $this->hostname;
@@ -78,6 +83,11 @@
         public function getLastQuery()
         {
             return $this->last_query;
+        }
+
+        public function getFailThreshold()
+        {
+            return $this->fail_threshold;
         }
 
         public function loadById($id)
@@ -150,7 +160,6 @@
             }
         }
 
-        abstract public function queryMonitor();
 
         public function poll()
         {
@@ -210,6 +219,38 @@
             }
             return $ids;
         }
+
+        public function processAddEdit($data)
+        {
+            $errors = array();
+            if(strlen($data['hostname']) == 0)
+                $errors['hostname'] = 'Hostname cannot be blank.';
+            $this->hostname = $data['hostname'];
+
+            if(!is_numeric($data['port']))
+                $errors['port'] = 'Port must be numeric.';
+            $this->port = intval($data['port']);
+
+            $this->alias = $data['alias'];
+
+            if(!is_numeric($data['fail_threshold']) || intval($data['fail_threshold']) <= 0)
+                $errors['fail_threshold'] = 'Failure threshold must be a positive integer.';
+            $this->fail_threshold = intval($data['fail_threshold']);
+
+            $errors = $this->customProcessAddEdit($data, $errors);
+            return $errors;
+        }
+
+        public function processDelete($data)
+        {
+            $this->customProcessDelete($data);
+        }
+
+        public abstract function queryMonitor();
+        public abstract function customProcessAddEdit($data, $errors);
+        public abstract function customProcessDelete();
+        public abstract function getName();
+        public abstract function getDescription();
 
         public static function fetch($db_row)
         {
