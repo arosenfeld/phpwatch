@@ -26,7 +26,10 @@
                 break;
         }
     ?>
-    <div class="info"><strong><?php p($monitor->getAlias()); ?></strong> - <?php p($monitor->getHostname()); ?>:<?php p($monitor->getPort()); ?></div>
+    <div class="info">
+        <strong><?php p($monitor->getAlias()); ?></strong> - <?php p($monitor->getHostname()); ?>:<?php p($monitor->getPort()); ?>
+        <div class="right"><a href="?page=monitor&id=<?php p($monitor->getId()); ?>">Edit</a> - <a href="#">Delete</a></div>
+    </div>
     <ul class="information">
         <li><strong>Contacts:</strong>
         <?php foreach(GuiHelpers::getContactsByMonitor($monitor) as $i => $c) : ?>

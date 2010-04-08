@@ -1,6 +1,7 @@
 <?php
     require_once('../common.php');
-    require_once('./helpers.php');
+    require_once(PW2_PATH . '/frontend/GuiHelpers.php');
+    require_once(PW2_PATH . '/frontend/FormHelpers.php');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>

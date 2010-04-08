@@ -6,7 +6,7 @@ a { border-bottom: 1px dashed #2fa426; color: #000; text-decoration: none; }
 a:hover { border-bottom-style: solid; }
 
 h1 { border-bottom: 1px dashed #2fa426; color: #000; font-size: 18px; font-weight: bold; text-transform: uppercase; }
-h2, h2.online, h2.offline, h2.waiting { font-size: 16px; color: #2fa426; margin: 0; font-weight: bold; }
+h2, h2.online, h2.offline, h2.waiting { font-size: 16px; color: #2fa426; margin: 5px 0; font-weight: bold; }
 h2.offline { color: #ff0000; }
 h2.waiting { color: #bebebe; }
 
@@ -49,4 +49,12 @@ h2.waiting { color: #bebebe; }
 
 #content:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
 
-div.info { border-bottom: 1px dashed #000; color: #000; font-size: 12px; padding-bottom: 2px; }
+div.info { /*border-bottom: 1px dashed #000;*/ color: #000; font-size: 12px; padding-bottom: 2px; }
+
+div.info div.right { float: right; }
+
+div.form-field { }
+div.form-field strong { color: #444; }
+div.form-field div.descr { color: #808080; font-size: 11px; }
+div.type-descr { color: #2fa426; margin-bottom: 3px; font-size: 11px; border-bottom: 1px dashed #ccc; }
+div.error { display: inline; color: #ee0022; }

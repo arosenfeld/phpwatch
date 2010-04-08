@@ -1,6 +1,4 @@
 <?php
-require_once('../common.php');
-
 function p($str)
 {
     echo $str;
@@ -8,7 +6,7 @@ function p($str)
 
 class GuiHelpers
 {
-    private static $allowed_pages = array ('dashboard', 'contacts', 'config');
+    private static $allowed_pages = array ('dashboard', 'monitor', 'contact', 'channel', 'config');
 
     public static function getPage($requested)
     {
