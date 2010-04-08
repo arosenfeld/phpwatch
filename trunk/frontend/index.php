@@ -21,9 +21,9 @@
 				</div>
                 <div class="menu">
                 <ul>
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Contacts</a></li>
-                    <li><a href="#">Configuration</a></li>
+                    <li><a href="?page=dashboard">Dashboard</a></li>
+                    <li><a href="?page=contacts">Contacts</a></li>
+                    <li><a href="?page=config">Configuration</a></li>
                 </ul>
                 </div>
                 <?php require('./pages/' . GuiHelpers::getPage($_GET['page']) . '.php'); ?>

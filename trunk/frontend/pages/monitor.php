@@ -15,7 +15,7 @@
         $errors = $monitor->processAddEdit($_POST);
         if(sizeof($errors) == 0)
         {
-            //$monitor->saveToDb();
+            $monitor->saveToDb();
             echo('<meta http-equiv="Refresh" content="0; url=?page=dashboard&edited=monitor&id="' . $monitor->getId() .
             '>');
         }
