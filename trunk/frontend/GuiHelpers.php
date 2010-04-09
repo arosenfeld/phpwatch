@@ -48,5 +48,14 @@ class GuiHelpers
     {
         return date('D, M j, Y G:i:s T', $timestamp);
     }
+
+    public static function getAllChannels()
+    {
+        $arr = array();
+        $contacts = $GLOBALS['PW_DB']->executeSelect('*', 'contacts', '');
+        foreach($contacts as $c)
+            $arr[$c['name']] = $GLOBALS['PW_DB']->executeSelect('id', 'channels', 'WHERE owner=' . $c['id']);
+        return $arr;
+    }
 }
 ?>

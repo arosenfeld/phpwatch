@@ -5,20 +5,24 @@
     require_once(PW2_PATH . '/src/Contact.php');
     require_once(PW2_PATH . '/src/Statistics.php');
 
+    $GLOBALS['monitor_types'] = array();
     $mon_handle = opendir(PW2_PATH . '/src/monitors');
     while(false !== ($file = readdir($mon_handle)))
     {
         if(strpos($file, '.php') !== false)
         {
+            $GLOBALS['monitor_types'][] = substr($file, 0, strlen($file) - 4);
             require_once(PW2_PATH . '/src/monitors/' . $file);
         }
     }
     closedir($mon_handle);
+    $GLOBALS['channel_types'] = array();
     $chan_handle = opendir(PW2_PATH . '/src/channels');
     while(false !== ($file = readdir($chan_handle)))
     {
         if(strpos($file, '.php') !== false)
         {
+            $GLOBALS['channel_types'][] = substr($file, 0, strlen($file) - 4);
             require_once(PW2_PATH . '/src/channels/' . $file);
         }
     }

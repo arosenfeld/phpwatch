@@ -16,13 +16,16 @@
         if(sizeof($errors) == 0)
         {
             $monitor->saveToDb();
-            echo('<meta http-equiv="Refresh" content="0; url=?page=dashboard&edited=monitor&id="' . $monitor->getId() .
-            '>');
+?>
+<div class="message">
+    The monitor has been saved. <br />
+    <a href="?page=dashboard">Return to dashboard</a>
+</div>
+<?php
         }
     }
     else
     {
-    }
 ?>
 <div class="section">
     <h1><?php p($monitor->getId() > 0 ? 'Edit' : 'Add'); ?> Monitor</h1>
@@ -60,10 +63,44 @@
             <?php FormHelpers::createText('fail_threshold', $monitor->getFailThreshold(), 'size="3"'); ?>
             <div class="error"><?php FormHelpers::checkError('fail_threshold', $errors); ?></div>
         </div>
+
     <h2>"<?php p($monitor->getName()); ?>" Specific Settings</h2>
     <strong>Description:</strong>
     <div class="type-descr"><?php p($monitor->getDescription()); ?></div>
     <?php require_once(PW2_PATH . '/frontend/forms/monitors/' . get_class($monitor) . '.php'); ?>
-    <div class="form-field"><?php FormHelpers::createSubmit('Submit'); ?></div>
+
+    <h2>Notification Channels</h2>
+    <div class="type-descr">The checkboxes below toggle who shall be contacted if this monitor is found to be offline.
+    They may also be changed within their respective contact page.</div>
+    <div class="form-field">
+    <?php
+        foreach(GuiHelpers::getAllChannels() as $name => $channels) : 
+            if(sizeof($channels) > 0) :
+    ?>
+    <strong><?php p($name); ?></strong>
+    <ul class="options">
+        <?php
+            foreach($channels as $chan) :
+                $chandle = Channel::fetch(intval($chan['id']));
+                if(array_search($chandle->getId(), $monitor->getChanIds()) !== false)
+                    $checked = true;
+                else
+                    $checked = false;
+        ?>
+            <li><?php
+                FormHelpers::createCheckbox('notification_channels[]', $chandle->getId(), $checked ? 'checked="checked"'
+                : '');
+                p('<strong>' . $chandle->getName() . ':</strong> ' . $chandle); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php
+            endif;
+        endforeach;
+    ?>
+    </div>
+    <div class="form-field"><center><?php FormHelpers::createSubmit('Submit'); ?></center></div>
     <?php FormHelpers::endForm(); ?>
 </div>
+<?php
+    }
+?>

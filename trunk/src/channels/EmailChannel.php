@@ -33,5 +33,20 @@
         {
             mail($this->config['address'], $this->getSubject($monitor), $this->getMessage($monitor));
         }
+
+        public function getName()
+        {
+            return 'Email Channel';
+        }
+
+        public function getDescription()
+        {
+            return 'Sends an e-mail to notify of service outages.';
+        }
+
+        public function __toString()
+        {
+            return $this->config['address'];
+        }
     }
 ?>

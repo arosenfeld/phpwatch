@@ -56,6 +56,15 @@
         }
 
         public abstract function doNotify($monitor);
+        //public abstract function customProcessAddEdit($data, $errors);
+        //public abstract function customProcessDelete();
+        public abstract function getName();
+        public abstract function getDescription();
+
+        public function __toString()
+        {
+            return $this->getName();
+        }
 
         public static function fetch($db_row)
         {

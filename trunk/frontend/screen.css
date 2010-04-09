@@ -46,6 +46,7 @@ h2.waiting { color: #7e7e7e; }
 .section ul.information { margin-bottom: 7px; padding-left: 30px; }
 .section ul li { list-style-type: square; text-align: justify; }
 .section li { padding: 2px; }
+.message { text-align: center; background-color: #f8f8f8; }
 
 #content:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
 
@@ -60,3 +61,5 @@ div.type-descr { color: #2fa426; margin-bottom: 3px; font-size: 11px; border-bot
 div.error { display: inline; color: #ee0022; }
 
 form { margin: 0px; padding: 0px; }
+ul.options { padding-left: 5px; }
+ul.options li { list-style-type: none; margin-left: 0px; }

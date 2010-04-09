@@ -39,6 +39,21 @@
             mail($this->config['number'] . '@' . SmsChannel::gatewayFromCarrier($this->config['carrier']), $this->getSubject($monitor), $this->getMessage($monitor));
         }
 
+        public function getName()
+        {
+            return 'SMS Channel';
+        }
+
+        public function getDescription()
+        {
+            return 'Sends a text-message (through a free gateway) to notify of service outages.';
+        }
+
+        public function __toString()
+        {
+            return $this->config['number'];
+        }
+
         public static function gatewayFromCarrier($carrier)
         {
             $gateways = array(

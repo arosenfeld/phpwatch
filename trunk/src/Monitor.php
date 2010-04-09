@@ -237,6 +237,10 @@
                 $errors['fail_threshold'] = 'Failure threshold must be a positive integer.';
             $this->fail_threshold = intval($data['fail_threshold']);
 
+            $this->notification_channels = array();
+            foreach($data['notification_channels'] as $id)
+                $this->notification_channels[] = Channel::fetch(intval($id));
+
             $errors = $this->customProcessAddEdit($data, $errors);
             return $errors;
         }
