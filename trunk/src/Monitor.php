@@ -244,6 +244,7 @@
         public function processDelete($data)
         {
             $this->customProcessDelete($data);
+            return $GLOBALS['PW_DB']->executeDelete('monitors', 'WHERE id=' . intval($this->id));
         }
 
         public abstract function queryMonitor();

@@ -1,6 +1,22 @@
 <div class="menu">
     <ul class="page-menu">
-        <li><a href="#">Add Monitor</a></li>
+        <li>
+            <?php
+                FormHelpers::startForm('GET', '?page=monitor');
+                FormHelpers::createHidden('page', 'monitor');
+            ?>
+            <?php
+                $options = array();
+                foreach($GLOBALS['monitor_types'] as $type)
+                {
+                    $o = new $type();
+                    $options[] = FormHelpers::getOption($o->getName(), $type);
+                }
+                FormHelpers::createSelect('type', $options);
+                FormHelpers::createSubmit('New Monitor');
+            ?>
+            <?php FormHelpers::endForm(); ?>
+        </li>
     </ul>
 </div>
 <div class="section">
@@ -28,15 +44,32 @@
     ?>
     <div class="info">
         <strong><?php p($monitor->getAlias()); ?></strong> - <?php p($monitor->getHostname()); ?>:<?php p($monitor->getPort()); ?>
-        <div class="right"><a href="?page=monitor&id=<?php p($monitor->getId()); ?>">Edit</a> - <a href="#">Delete</a></div>
+        <div class="right"><a href="?page=monitor&id=<?php p($monitor->getId()); ?>">Edit</a> - <a
+        href="?page=monitor-delete&id=<?php p($monitor->getId()); ?>">Delete</a></div>
     </div>
     <ul class="information">
         <li><strong>Contacts:</strong>
-        <?php foreach(GuiHelpers::getContactsByMonitor($monitor) as $i => $c) : ?>
-            <?php if($i > 0) : p(', '); endif; ?>
-            <a href="?page=contact&edit=<?php p($c['id']); ?>"><?php p($c['name']); ?></a>
-        <?php endforeach; ?>
-        <li><strong>Last Query:</strong> <?php p(GuiHelpers::formatDateLong($monitor->getLastQuery())); ?></li>
+        <?php
+            $contacts = GuiHelpers::getContactsByMonitor($monitor);
+            if(is_array($contacts)) :
+                foreach($contacts as $i => $c) :
+                    if($i > 0) : p(', '); endif;
+        ?>
+                <a href="?page=contact&edit=<?php p($c['id']); ?>"><?php p($c['name']); ?></a>
+            <?php 
+                endforeach;
+            else :
+                p('None');
+            endif;
+            ?>
+        <li><strong>Last Query:</strong>
+        <?php 
+            if($monitor->getStatus() == STATUS_UNPOLLED)
+                p('N/A');
+            else
+                p(GuiHelpers::formatDateLong($monitor->getLastQuery()));
+        ?>
+        </li>
     </ul>
     <?php endforeach; ?>
 </div>

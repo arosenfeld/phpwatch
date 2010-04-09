@@ -50,6 +50,11 @@
             return $this->query('UPDATE `' . $table . '` SET ' . implode(',', $updates) . ' ' . $suffix);
         }
 
+        public function executeDelete($table, $suffix)
+        {
+            return $this->query('DELETE FROM `' . $table . '` ' . $suffix);
+        }
+
         public function executeRaw($query)
         {
             $result = $this->query($query);

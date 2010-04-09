@@ -22,6 +22,7 @@
         public abstract function executeSelectOne($fields, $table, $suffix);
         public abstract function executeInsert($fields, $table);
         public abstract function executeUpdate($fields, $table, $suffix);
+        public abstract function executeDelete($table, $suffix);
         public abstract function executeRaw($sql);
         public abstract function numRecords($result);
     }

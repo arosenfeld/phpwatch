@@ -6,7 +6,7 @@ function p($str)
 
 class GuiHelpers
 {
-    private static $allowed_pages = array ('dashboard', 'monitor', 'contact', 'channel', 'config');
+    private static $allowed_pages = array ('dashboard', 'monitor', 'monitor-delete', 'contact', 'contact-delete', 'channel', 'config');
 
     public static function getPage($requested)
     {
@@ -26,10 +26,11 @@ class GuiHelpers
 
     public static function getContactsByMonitor($monitor)
     {
+        if(sizeof($monitor->getChanIds()) == 0)
+            return null;
         return $GLOBALS['PW_DB']->executeRaw('SELECT DISTINCT contacts.id, contacts.name FROM contacts, channels WHERE channels.owner =
         contacts.id AND channels.id IN (' . implode(',', $monitor->getChanIds()) . ')');
     }
-
     public static function getStatistic($field)
     {
         $r = $GLOBALS['PW_DB']->executeRaw('SELECT COUNT(monitors.id) AS monitor_count, COUNT(contacts.id) AS contact_count

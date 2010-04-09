@@ -27,7 +27,12 @@
 <div class="section">
     <h1><?php p($monitor->getId() > 0 ? 'Edit' : 'Add'); ?> Monitor</h1>
     <h2>Generic Settings</h2>
-    <?php FormHelpers::startForm('POST', '?page=monitor&id=' . $monitor->getId()); ?>
+    <?php 
+        if($monitor->getId() != 0)
+            FormHelpers::startForm('POST', '?page=monitor&id=' . $monitor->getId());
+        else
+            FormHelpers::startForm('POST', '?page=monitor&type=' . $_GET['type']);
+    ?>
         <div class="form-field">
             <strong>Hostname:</strong>
             <div class="descr">Hostname or IP to monitor.</div>

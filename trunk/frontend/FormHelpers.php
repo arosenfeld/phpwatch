@@ -24,6 +24,11 @@
             p('<form method="' . $method . '" action="' . $action . '"' . FormHelpers::optional($attribs) . ' />');
         }
 
+        public static function createHidden($name, $value)
+        {
+            p('<input type="hidden" name="' . $name . '" value="' . $value . '" />');
+        }
+
         public static function createText($name, $value, $attribs = null)
         {
             p('<input type="text" name="' . $name . '" value="' . $value . '"' . FormHelpers::optional($attribs) . ' />');
@@ -36,7 +41,7 @@
 
         public static function getOption($display, $value = null, $attribs = null)
         {
-            return '<option' . FormHelpers::optional($value) . FormHelpers::optional($attribs) . '>' . $display .
+            return '<option' . ($value ? ' value="' . $value . '"' : '') . FormHelpers::optional($attribs) . '>' . $display .
             '</option>';
         }
 
@@ -48,9 +53,9 @@
             p('</select>');
         }
 
-        public static function createSubmit($value)
+        public static function createSubmit($value, $attribs = null)
         {
-            p('<input type="submit" value="' . $value . '" />');
+            p('<input type="submit" value="' . $value . '"' . FormHelpers::optional($attribs) . ' />');
         }
 
         public static function endForm()
