@@ -29,6 +29,16 @@
             return $this->id;
         }
 
+        public function getOwner()
+        {
+            return $this->owner;
+        }
+
+        public function setOwner($owner_id)
+        {
+            $this->owner = $owner_id;
+        }
+
         public function loadById($id)
         {
             $db_row = $GLOBALS['PW_DB']->executeSelectOne('*', 'channels', 'WHERE id=' . intval($id));
@@ -37,8 +47,8 @@
 
         public function loadByRow($db_row)
         {
-            $this->id = $db_row['id'];
-            $this->owner = $db_row['owner'];
+            $this->id = intval($db_row['id']);
+            $this->owner = intval($db_row['owner']);
             $this->config = unserialize($db_row['config']);
         }
 
@@ -55,9 +65,30 @@
                 $GLOBALS['PW_DB']->executeUpdate($values, 'channels', 'WHERE id=' . intval($this->id));
         }
 
+        public function processAddEdit($data)
+        {
+            $errors = array();
+            $errors = $this->customProcessAddEdit($data, $errors);
+            return $errors;
+        }
+
+        public function processDelete($data)
+        {
+            $this->customProcessDelete();
+            $mons = $GLOBALS['PW_DB']->executeSelect('*', 'monitors', 'WHERE ' . intval($this->id) . ' IN
+            (notification_channels)');
+            foreach($mons as $mon)
+            {
+                $mhandle = Monitor::fetch($mon);
+                $mhandle->deleteChannel($mhandle);
+                $mhandle->saveToDb();
+            }
+            $GLOBALS['PW_DB']->executeDelete('channels', 'WHERE id=' . intval($this->id));
+        }
+
         public abstract function doNotify($monitor);
-        //public abstract function customProcessAddEdit($data, $errors);
-        //public abstract function customProcessDelete();
+        public abstract function customProcessAddEdit($data, $errors);
+        public abstract function customProcessDelete();
         public abstract function getName();
         public abstract function getDescription();
 

@@ -44,6 +44,27 @@
             return 'Sends an e-mail to notify of service outages.';
         }
 
+        public function customProcessAddEdit($data, $errors)
+        {
+            if(strlen($data['subject']) == 0)
+                $errors['subject'] = 'Subject cannot be blank.';
+            $this->config['subject'] = $data['subject'];
+
+            if(strlen($data['message']) == 0)
+                $errors['message'] = 'Message cannot be blank.';
+            $this->config['message'] = $data['message'];
+
+            if(eregi("^[a-zA-Z0-9_]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$]", $data['address']))
+                $errors['address'] = 'E-mail address is invalid.';
+            $this->config['address'] = $data['address'];
+
+            return $errors;
+        }
+
+        public function customProcessDelete()
+        {
+        }
+        
         public function __toString()
         {
             return $this->config['address'];

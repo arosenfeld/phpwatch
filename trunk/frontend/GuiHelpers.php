@@ -6,7 +6,8 @@ function p($str)
 
 class GuiHelpers
 {
-    private static $allowed_pages = array ('monitors', 'monitor', 'monitor-delete', 'contacts', 'contact', 'contact-delete', 'channel', 'config');
+    private static $allowed_pages = array ('monitors', 'monitor', 'monitor-delete', 'contacts', 'contact',
+    'contact-delete', 'channel', 'channel-delete', 'config');
 
     public static function getPage($requested)
     {

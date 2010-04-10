@@ -80,6 +80,16 @@
             $GLOBALS['PW_DB']->executeUpdate($values, 'channels', 'WHERE owner=' . intval($this->id));
             $values = array( 'owner' => $this->id );
             $GLOBALS['PW_DB']->executeUpdate($values, 'channels', 'WHERE id IN (' . implode(',', $this->getChanIds()) . ')');
+            $GLOBALS['PW_DB']->executeDelete('channels', 'WHERE id=0');
+        }
+
+        public function processAddEdit($data)
+        {
+            $errors = array();
+            if(strlen($data['name']) == 0)
+                $errors['name'] = 'Name cannot be blank.';
+            $this->name = $data['name'];
+            return $errors;
         }
 
         public function processDelete($data)
@@ -87,15 +97,9 @@
             $chans = $GLOBALS['PW_DB']->executeSelect('id', 'channels', 'WHERE owner=' . intval($data['id']));
             foreach($chans as $chan)
             {
-                $mons = $GLOBALS['PW_DB']->executeSelect('*', 'monitors', 'WHERE ' . intval($chan['id']) . ' IN
-                (notification_channels)');
-                foreach($mons as $mon)
-                {
-                    $mhandle = Monitor::fetch($mon);
-                    $mhandle->deleteChannel($mhandle);
-                }
+                $channel = Channel::fetch($chan);
+                $channel->processDelete();
             }
-            $GLOBALS['PW_DB']->executeDelete('channels', 'WHERE owner=' . intval($data['id']));
             $GLOBALS['PW_DB']->executeDelete('contacts', 'WHERE id=' . intval($data['id']));
         }
 

@@ -238,8 +238,11 @@
             $this->fail_threshold = intval($data['fail_threshold']);
 
             $this->notification_channels = array();
-            foreach($data['notification_channels'] as $id)
-                $this->notification_channels[] = Channel::fetch(intval($id));
+            if(is_array($data['notification_channels']))
+            {
+                foreach($data['notification_channels'] as $id)
+                    $this->notification_channels[] = Channel::fetch(intval($id));
+            }
 
             $errors = $this->customProcessAddEdit($data, $errors);
             return $errors;

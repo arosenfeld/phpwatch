@@ -1,4 +1,5 @@
 <?php
+    $show_form = true;
     if(is_numeric($_GET['id']))
     {
         $monitor = Monitor::fetch(intval($_GET['id']));
@@ -16,6 +17,7 @@
         if(sizeof($errors) == 0)
         {
             $monitor->saveToDb();
+            $show_form = false;
 ?>
 <div class="message">
     The monitor has been saved. <br />
@@ -24,7 +26,8 @@
 <?php
         }
     }
-    else
+
+    if($show_form)
     {
 ?>
 <div class="section">
