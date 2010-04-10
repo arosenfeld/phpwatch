@@ -21,7 +21,7 @@
 				</div>
                 <div class="menu">
                 <ul>
-                    <li><a href="?page=dashboard">Dashboard</a></li>
+                    <li><a href="?page=monitors">Monitors</a></li>
                     <li><a href="?page=contacts">Contacts</a></li>
                     <li><a href="?page=config">Configuration</a></li>
                 </ul>

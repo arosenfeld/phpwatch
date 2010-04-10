@@ -1,9 +1,14 @@
 <?php
-    print_r($_GET);
     $monitor = Monitor::fetch(intval($_GET['id']));
     if(FormHelpers::donePOST())
     {
-        print_r($monitor->processDelete($_GET));
+        $monitor->processDelete($_GET);
+        ?>
+<div class="message">
+    The monitor has been deleted. <br />
+    <a href="?page=monitors">Return to monitors</a>
+</div>
+        <?
     }
     else
     {
@@ -13,7 +18,7 @@
 <?php FormHelpers::startForm('POST', '?page=monitor-delete&id=' . $monitor->getId()); ?>
 <?php FormHelpers::createHidden('confirmed', '1'); ?>
 <center>
-    Are you sure you want to delete the "<?php p($monitor->getAlias()); ?>" monitor?<br />
+    Are you sure you want to delete this monitor?<br />
     <?php FormHelpers::createSubmit('Yes'); ?>
 </center>
 <?php FormHelpers::endForm(); ?>

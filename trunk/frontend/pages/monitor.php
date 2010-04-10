@@ -19,7 +19,7 @@
 ?>
 <div class="message">
     The monitor has been saved. <br />
-    <a href="?page=dashboard">Return to dashboard</a>
+    <a href="?page=monitors">Return to monitors</a>
 </div>
 <?php
         }
@@ -74,7 +74,8 @@
     They may also be changed within their respective contact page.</div>
     <div class="form-field">
     <?php
-        foreach(GuiHelpers::getAllChannels() as $name => $channels) : 
+        foreach(GuiHelpers::getAllChannels() as $id => $info) : 
+            $channels = $info['channels'];
             if(sizeof($channels) > 0) :
     ?>
     <strong><?php p($name); ?></strong>

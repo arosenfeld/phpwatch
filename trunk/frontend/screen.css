@@ -56,10 +56,10 @@ div.info div.right { float: right; }
 
 div.form-field { }
 div.form-field strong { color: #444; }
-div.form-field div.descr { color: #808080; font-size: 11px; }
+div.descr { color: #808080; font-size: 11px; }
 div.type-descr { color: #2fa426; margin-bottom: 3px; font-size: 11px; border-bottom: 1px dashed #ccc; }
 div.error { display: inline; color: #ee0022; }
 
 form { margin: 0px; padding: 0px; }
-ul.options { padding-left: 5px; }
-ul.options li { list-style-type: none; margin-left: 0px; }
+ul.options { margin: 2px; padding: 0 0; }
+ul.options li { list-style-type: none; margin: 0 0; }

@@ -82,6 +82,23 @@
             $GLOBALS['PW_DB']->executeUpdate($values, 'channels', 'WHERE id IN (' . implode(',', $this->getChanIds()) . ')');
         }
 
+        public function processDelete($data)
+        {
+            $chans = $GLOBALS['PW_DB']->executeSelect('id', 'channels', 'WHERE owner=' . intval($data['id']));
+            foreach($chans as $chan)
+            {
+                $mons = $GLOBALS['PW_DB']->executeSelect('*', 'monitors', 'WHERE ' . intval($chan['id']) . ' IN
+                (notification_channels)');
+                foreach($mons as $mon)
+                {
+                    $mhandle = Monitor::fetch($mon);
+                    $mhandle->deleteChannel($mhandle);
+                }
+            }
+            $GLOBALS['PW_DB']->executeDelete('channels', 'WHERE owner=' . intval($data['id']));
+            $GLOBALS['PW_DB']->executeDelete('contacts', 'WHERE id=' . intval($data['id']));
+        }
+
         private function getChanIds()
         {
             $ids = array();

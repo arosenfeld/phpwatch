@@ -6,13 +6,13 @@ function p($str)
 
 class GuiHelpers
 {
-    private static $allowed_pages = array ('dashboard', 'monitor', 'monitor-delete', 'contact', 'contact-delete', 'channel', 'config');
+    private static $allowed_pages = array ('monitors', 'monitor', 'monitor-delete', 'contacts', 'contact', 'contact-delete', 'channel', 'config');
 
     public static function getPage($requested)
     {
         if(in_array($requested, GuiHelpers::$allowed_pages))
             return $requested;
-        return 'dashboard';
+        return 'monitors';
     }
 
     public static function getMonitors()
@@ -54,7 +54,12 @@ class GuiHelpers
         $arr = array();
         $contacts = $GLOBALS['PW_DB']->executeSelect('*', 'contacts', '');
         foreach($contacts as $c)
-            $arr[$c['name']] = $GLOBALS['PW_DB']->executeSelect('id', 'channels', 'WHERE owner=' . $c['id']);
+        {
+                $arr[$c['id']] = array(
+                    'name' => $c['name'],
+                    'channels' => $GLOBALS['PW_DB']->executeSelect('id', 'channels', 'WHERE owner=' . $c['id'])
+            );
+        }
         return $arr;
     }
 }
