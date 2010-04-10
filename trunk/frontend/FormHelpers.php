@@ -19,7 +19,7 @@
                 p($errors[$key]);
         }
 
-        public static function startForm($method, $action)
+        public static function startForm($method, $action, $attribs = null)
         {
             p('<form method="' . $method . '" action="' . $action . '"' . FormHelpers::optional($attribs) . ' />');
         }
@@ -62,6 +62,11 @@
         public static function createSubmit($value, $attribs = null)
         {
             p('<input type="submit" value="' . $value . '"' . FormHelpers::optional($attribs) . ' />');
+        }
+
+        public static function createButton($value, $attribs = null)
+        {
+            p('<input type="button" value="' . $value . '"' . FormHelpers::optional($attribs) . ' />');
         }
 
         public static function endForm()

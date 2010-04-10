@@ -49,10 +49,10 @@ class GuiHelpers
         return date('D, M j, Y G:i:s T', $timestamp);
     }
 
-    public static function getAllChannels()
+    public static function getAllChannels($id = null)
     {
         $arr = array();
-        $contacts = $GLOBALS['PW_DB']->executeSelect('*', 'contacts', '');
+        $contacts = $GLOBALS['PW_DB']->executeSelect('*', 'contacts', ($id == null ? '' : 'WHERE id=' . intval($id)));
         foreach($contacts as $c)
         {
                 $arr[$c['id']] = array(
