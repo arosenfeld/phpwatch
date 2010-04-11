@@ -76,6 +76,18 @@ class GuiHelpers
 
     public static function checkVersion()
     {
+        $handle = @fopen('http://aaron-rosenfeld.com/phpWatch2/version', 'r');
+        $v = @fgets($handle);
+        @fclose($handle);
+        if($v)  
+        {
+            $v = explode('|', $v);
+            if(strtolower(trim($v[0])) != strtolower(trim(PW2_VERSION)))
+                return array(false, $v[2]);
+            else
+                return array(true, 'Up to date');
+        }
+        return array(false, false);
     }
 }
 ?>

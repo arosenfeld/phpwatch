@@ -1,5 +1,5 @@
 <?php
-    require_once('../common.php');
+    require_once(dirname(__FILE__) . '/../common.php');
     require_once(PW2_PATH . '/frontend/GuiHelpers.php');
     require_once(PW2_PATH . '/frontend/FormHelpers.php');
 ?>
@@ -17,8 +17,22 @@
 				<div id="subheader">
 					<img src="images/logo.jpg">
 					<p><?php p(GuiHelpers::getPage($_GET['page'])); ?></p>
-					<p class="right-side">Current version: v<?php p(PW2_VERSION); ?></p>
-                    <p class="version-notice">New Version Available</p>
+					<p class="right-side">Installed version: v<?php p(PW2_VERSION); ?></p>
+                    <?php
+                        list($good, $info) = GuiHelpers::checkVersion();
+                        if($good)
+                        {
+                            p('<p class="version-notice-good">Up to date</p>');
+                        }
+                        else
+                        {
+                            if($info === false)
+                                p('<p class="version-notice-bad">Unable to check version</p>');
+                            else
+                                p('<p class="version-notice-bad">Old version.  Update <a href="' . $info . '"
+                                target="_new">here</a></p>');
+                        }
+                    ?>
 				</div>
                 <div class="menu">
                 <ul>
