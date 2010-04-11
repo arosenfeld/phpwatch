@@ -7,9 +7,9 @@
             'pass' => '',
             'db' => ''
         ),
-        'path' => '',
+        'path' => dirname(__FILE__),
     );
 
-    define('PW2_VERSION', '0.0.2');
+    define('PW2_VERSION', '2.0.2 Beta');
     define('PW2_PATH', $PW2_CONFIG['path']);
 ?>

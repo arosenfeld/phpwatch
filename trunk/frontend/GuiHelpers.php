@@ -76,7 +76,7 @@ class GuiHelpers
 
     public static function checkVersion()
     {
-        $handle = @fopen('http://aaron-rosenfeld.com/phpWatch2/version', 'r');
+        $handle = @fopen('http://phpwatch.net/version', 'r');
         $v = @fgets($handle);
         @fclose($handle);
         if($v)  
