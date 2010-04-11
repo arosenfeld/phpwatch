@@ -16,7 +16,8 @@ h2.waiting { color: #7e7e7e; }
 #subheader { height: 47px; margin: 0; margin-right: 10px; }
 #subheader img { float: left; }
 #subheader p { color: #000; font-size: 20px; margin: 0; padding-top: 0; text-align: right; text-transform: uppercase; }
-#subheader p.right-side { color: #2fa426; font-size: 12px; padding-top: 0; }
+#subheader p.right-side, p.version-notice { color: #2fa426; font-size: 12px; padding-top: 0; }
+#subheader p.version-notice { font-size:12px; color: #ff0000; }
 
 .menu { margin: 10px; }
 .menu ul { background-color: #2fa426; padding: 5px; }

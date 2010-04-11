@@ -7,7 +7,7 @@ function p($str)
 class GuiHelpers
 {
     private static $allowed_pages = array ('monitors', 'monitor', 'monitor-delete', 'contacts', 'contact',
-    'contact-delete', 'channel', 'channel-delete', 'config');
+    'contact-delete', 'channel', 'channel-delete');
 
     public static function getPage($requested)
     {
@@ -72,6 +72,10 @@ class GuiHelpers
             return array(floor(($target_time - time()) / 60), ($target_time - time()) % 60);
         else
             return array(0, 0);
+    }
+
+    public static function checkVersion()
+    {
     }
 }
 ?>

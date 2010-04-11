@@ -18,12 +18,12 @@
 					<img src="images/logo.jpg">
 					<p><?php p(GuiHelpers::getPage($_GET['page'])); ?></p>
 					<p class="right-side">Current version: v<?php p(PW2_VERSION); ?></p>
+                    <p class="version-notice">New Version Available</p>
 				</div>
                 <div class="menu">
                 <ul>
                     <li><a href="?page=monitors">Monitors</a></li>
                     <li><a href="?page=contacts">Contacts</a></li>
-                    <li><a href="?page=config">Configuration</a></li>
                 </ul>
                 </div>
                 <?php require('./pages/' . GuiHelpers::getPage($_GET['page']) . '.php'); ?>
