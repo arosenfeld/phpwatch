@@ -112,8 +112,9 @@
         foreach(GuiHelpers::getAllChannels() as $id => $info) : 
             $channels = $info['channels'];
             if(sizeof($channels) > 0) :
+                $c = new Contact($id);
     ?>
-    <strong><?php p($name); ?></strong>
+    <strong><?php p($c->getName()); ?></strong>
     <ul class="options">
         <?php
             foreach($channels as $chan) :
