@@ -4,6 +4,16 @@
 
     class EmailChannel extends Channel
     {
+        public function getSubjectFormat()
+        {
+            return $this->config['subject'];
+        }
+
+        public function getMessageFormat()
+        {
+            return $this->config['message'];
+        }
+
         private function getSubject($monitor)
         {
             return sprintf($this->config['subject'], $monitor->getHostname(), $monitor->getPort(), $monitor->getAlias());
@@ -14,19 +24,9 @@
             return sprintf($this->config['message'], $monitor->getHostname(), $monitor->getPort(), $monitor->getAlias());
         }
 
-        public function setSubject($subject)
+        public function getAddress()
         {
-            $this->config['subject'] = $subject;
-        }
-
-        public function setMessage($message)
-        {
-            $this->config['message'] = $message;
-        }
-
-        public function setAddress($address)
-        {
-            $this->config['address'] = $address;
+            return $this->config['address'];
         }
 
         public function doNotify($monitor)

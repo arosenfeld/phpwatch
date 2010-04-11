@@ -63,5 +63,15 @@ class GuiHelpers
         }
         return $arr;
     }
+
+    public static function getHoursMinutes($target_time)
+    {
+        if($target_time == 0)
+            return array(1, 0);
+        else if($target_time > time())
+            return array(floor(($target_time - time()) / 60), ($target_time - time()) % 60);
+        else
+            return array(0, 0);
+    }
 }
 ?>

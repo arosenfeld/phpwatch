@@ -12,11 +12,6 @@
             connection is unsuccessful, the service is considered "offline."';
         }
 
-        public function setTimeout($seconds)
-        {
-            $this->config['timeout'] = $seconds;
-        }
-
         public function getTimeout()
         {
             return $this->config['timeout'];
@@ -37,7 +32,7 @@
         {
             if(!is_numeric($data['timeout']) || intval($data['timeout']) <= 0)
                 $errors['timeout'] = 'Timeout must be a positive integer.';
-            $this->setTimeout(intval($data['timeout']));
+            $this->config['timeout'] = (intval($data['timeout']));
             return $errors;
         }
 

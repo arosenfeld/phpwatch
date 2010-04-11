@@ -59,6 +59,12 @@
             ' />');
         }
 
+        public static function createRadio($name, $value, $attribs = null)
+        {
+            p('<input type="radio" name="' . $name . '" value="' . $value . '"' . FormHelpers::optional($attribs) .
+            ' />');
+        }
+
         public static function createSubmit($value, $attribs = null)
         {
             p('<input type="submit" value="' . $value . '"' . FormHelpers::optional($attribs) . ' />');

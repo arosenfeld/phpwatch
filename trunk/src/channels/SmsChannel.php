@@ -30,29 +30,9 @@
             return sprintf($this->config['message'], $monitor->getHostname(), $monitor->getPort(), $monitor->getAlias());
         }
 
-        public function setSubject($subject)
-        {
-            $this->config['subject'] = $subject;
-        }
-
-        public function setMessage($message)
-        {
-            $this->config['message'] = $message;
-        }
-
         public function getNumber()
         {
             return $this->config['number'];
-        }
-
-        public function setNumber($number)
-        {
-            $this->config['number'] = $number;
-        }
-
-        public function setCarrier($carrier)
-        {
-            $this->config['carrier'] = $carrier;
         }
 
         public function doNotify($monitor)

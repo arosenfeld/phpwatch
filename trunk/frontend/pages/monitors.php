@@ -34,7 +34,7 @@
             case STATUS_PAUSED :
                 p('<h2 class="waiting">Paused</h2>');
                 break;
-            case STATUS_WAITING :
+            case STATUS_DOWNTIME :
                 p('<h2 class="waiting">Scheduled Downtime</h2>');
                 break;
             case STATUS_UNPOLLED :
@@ -43,9 +43,12 @@
         }
     ?>
     <div class="info">
-        <strong><?php p($monitor->getAlias()); ?></strong> - <?php p($monitor->getHostname()); ?>:<?php p($monitor->getPort()); ?>
-        <div class="right"><a href="?page=monitor&id=<?php p($monitor->getId()); ?>">Edit</a> - <a
-        href="?page=monitor-delete&id=<?php p($monitor->getId()); ?>">Delete</a></div>
+        <?php $monitor->getAlias() ? p('<strong>' . $monitor->getAlias() . '</strong> - ') : ''; ?><?php p($monitor->getHostname()); ?>:<?php p($monitor->getPort()); ?>
+        <div class="right">
+            <a href="?page=monitor&id=<?php p($monitor->getId()); ?>">Edit</a> -
+            <a href="?page=monitor-delete&id=<?php p($monitor->getId()); ?>">Delete</a> - 
+            <a href="?page=query&id=<?php p($monitor->getId()); ?>">Re-query</a>
+        </div>
     </div>
     <ul class="information">
         <li><strong>Contacts:</strong>

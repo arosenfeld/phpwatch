@@ -6,10 +6,8 @@
     define('STATUS_OFFLINE', 0x02);
     // The monitor is paused.  Poll data is discarded.
     define('STATUS_PAUSED', 0x03);
-    // The monitor is in a scheduled-downtime mode.  Poll data is discarded but monitored.
-    // At $expected_return_time, the monitor will be moved to either STATUS_ONLINE or
-    // STATUS_OFFLINE and will resume nominal operation.
-    define('STATUS_WAITING', 0x04);
+    // The monitor is in a scheduled-downtime mode.
+    define('STATUS_DOWNTIME', 0x04);
     // The monitor has no polling data available.
     define('STATUS_UNPOLLED', 0x05);
 
@@ -20,7 +18,8 @@
         protected $port;
         protected $alias;
         protected $status;
-        protected $expected_return_time;
+        protected $downtime_start;
+        protected $downtime_end;
         protected $notification_channels;
         protected $send_notifications;
         protected $last_query;
@@ -45,7 +44,8 @@
                 $this->port = $port;
                 $this->alias = $alias;
                 $this->status = STATUS_UNPOLLED;
-                $this->expected_return_time = 0;
+                $this->downtime_start = 0;
+                $this->downtime_end = 0;
                 $this->notification_channels = array();
                 $this->send_notifications = true;
                 $this->last_query = 0;
@@ -90,6 +90,16 @@
             return $this->fail_threshold;
         }
 
+        public function getDowntimeStart()
+        {
+            return $this->downtime_start;
+        }
+
+        public function getDowntimeEnd()
+        {
+            return $this->downtime_end;
+        }
+
         public function loadById($id)
         {
             $db_row = $GLOBALS['PW_DB']->executeSelectOne('*', 'monitors', 'WHERE id=' . intval($id));
@@ -103,7 +113,8 @@
             $this->port = $db_row['port'];
             $this->alias = $db_row['alias'];
             $this->status = $db_row['status'];
-            $this->expected_return_time = $db_row['expected_return_time'];
+            $this->downtime_start = $db_row['downtime_start'];
+            $this->downtime_end = $db_row['downtime_end'];
             $this->notification_channels = array();
             $this->send_notifications = $db_row['send_notifications'];
             $this->last_query = $db_row['last_query'];
@@ -124,7 +135,8 @@
                 'port' => $this->port,
                 'alias' => $this->alias,
                 'status' => $this->status,
-                'expected_return_time' => $this->expected_return_time,
+                'downtime_start' => $this->downtime_start,
+                'downtime_end' => $this->downtime_end,
                 'notification_channels' => implode(',', $this->getChanIds()),
                 'send_notifications' => $this->send_notifications,
                 'last_query' => $this->last_query,
@@ -160,11 +172,21 @@
             }
         }
 
-
         public function poll()
         {
             $up = $this->queryMonitor();
             $this->last_query = time();
+
+            if($this->downtime_start != 0 && $this->downtime_start < time())
+                $this->status = STATUS_DOWNTIME;
+
+            if($this->status == STATUS_DOWNTIME && $this->downtime_end <= time())
+            {
+                $this->status = UNPOLLED;
+                $this->downtime_start = 0;
+                $this->downtime_end = 0;
+            }
+
             switch($this->status)
             {
                 case STATUS_UNPOLLED:
@@ -185,26 +207,12 @@
                     break;
                 case STATUS_PAUSED:
                     break;
-                case STATUS_WAITING:
-                    if($up)
-                    {
-                        $this->status = STATUS_ONLINE;
-                        $this->fail_count = 0;
-                        $this->send_notifications = true;
-                    }
-                    elseif($this->expected_return_time <= time())
-                    {
-                        $this->status = STATUS_OFFLINE;
-                        $this->fail_count++;
-                        $this->send_notifications = false;
-                    }
-                    break;
             }
             if( $this->send_notifications && 
                 $this->status == STATUS_OFFLINE && 
                 $this->fail_count >= $this->fail_threshold)
             {
-                #$this->sendNotifications();
+                $this->sendNotifications();
                 $this->send_notifications = false;
             }
             return $up;
@@ -242,6 +250,28 @@
             {
                 foreach($data['notification_channels'] as $id)
                     $this->notification_channels[] = Channel::fetch(intval($id));
+            }
+
+            $this->status = intval($data['status']);
+            if($this->status == STATUS_DOWNTIME)
+            {
+                if(!is_numeric($data['downtime_start_hours']) ||
+                   !is_numeric($data['downtime_start_minutes']) ||
+                   !is_numeric($data['downtime_end_hours']) ||
+                   !is_numeric($data['downtime_end_minutes'])
+                  )
+                {
+                    $errors['interval'] = 'Invalid time or interval.';
+                }
+                $this->downtime_start = time() + intval($data['downtime_start_hours']) * 60 +
+                intval($data['downtime_start_minutes']);
+                $this->downtime_end = time() + intval($data['downtime_end_hours']) * 60 +
+                intval($data['downtime_end_minutes']);
+            }
+            else
+            {
+                $this->downtime_start = 0;
+                $this->downtime_end = 0;
             }
 
             $errors = $this->customProcessAddEdit($data, $errors);
