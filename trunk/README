@@ -1,0 +1,45 @@
+===============================
+  phpWatch 2.x.x Beta Release
+===============================
+
+Thank you for trying this very early release of phpWatch 2.  At the moment there is no installer script and this file is
+designed to walk you through the process.
+
+1) Create a mySQL database and an associated user with (at least) SELECT, UPDATE, INSERT, and DELETE privileges.
+2) Import "dump.sql" into the newely created database.
+3) Fill in the hostname, username, password, and database name in config.php.  For example, a completed config.php file
+may look like:
+
+    <?php
+        $PW2_CONFIG = array(
+            'db_scheme' => 'MySQL',
+            'db_info' => array(
+                'host' => 'localhost',
+                'user' => 'mysql_user_name',
+                'pass' => 'mysql_user_password',
+                'db' => 'mysql_database_name'
+            ),
+            'path' => dirname(__FILE__),
+        );
+
+        define('PW2_VERSION', '2.0.2 Beta');
+        define('PW2_PATH', $PW2_CONFIG['path']);
+    ?>
+
+4) Setup a cronjob (or scheduled task in Windows) that runs cron.php in the root directory of phpWatch 2 at a desired frequency.
+Keep in mind, a full path should be used.  For example, to setup a cronjob that runs every 5 minutes, run "crontab -e"
+and add the following line to the end of the file:
+
+    */5 * * * * php /path/to/phpwatch/root/directory/cron.php
+
+5) Visit the root directory of phpWatch in a browser.  Assure there are no errors shown.
+
+===============================
+  Contact
+===============================
+
+Because this is an early version, please report all errors to the developer at:
+
+    aaron@aaron-rosenfeld.com
+
+Feature requests will also be considered.
