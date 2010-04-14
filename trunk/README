@@ -19,6 +19,15 @@ MANUAL INSTALL :
     3) Navigate to the root directory of phpWatch and verify there are no errors.
     4) Delete the install directory.
 
+CRONJOB SETUP :
+    To allow phpWatch to query services at a specific interval without human interaction, a cronjob (or scheduled task
+    in Windows) must be setup to run cron.php at the desired frequency.  Keep in mind, a full path should be used.
+    
+    For example, to setup a cronjob that runs every 5 minutes, run "crontab -e" and add the following line to the end of
+    the file:
+
+        */5 * * * * php /path/to/phpwatch/root/directory/cron.php
+
 ===============================
   Contact
 ===============================
