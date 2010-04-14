@@ -28,7 +28,7 @@
     }
     closedir($chan_handle);
 
-    $GLOBALS['PW_DB'] = new MySQL($PW2_CONFIG['db_info']['host'], $PW2_CONFIG['db_info']['db'], $PW2_CONFIG['db_info']['user'], $PW2_CONFIG['db_info']['pass']);
+    $GLOBALS['PW_DB'] = new $PW2_CONFIG['db_scheme']($PW2_CONFIG['db_info']['host'], $PW2_CONFIG['db_info']['db'], $PW2_CONFIG['db_info']['user'], $PW2_CONFIG['db_info']['pass']);
     if($GLOBALS['PW_DB']->connect() === false)
         die('Unable to connect to database.');
 ?>
