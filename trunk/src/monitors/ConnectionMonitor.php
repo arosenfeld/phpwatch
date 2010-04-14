@@ -32,7 +32,7 @@
         {
             if(!is_numeric($data['timeout']) || intval($data['timeout']) <= 0)
                 $errors['timeout'] = 'Timeout must be a positive integer.';
-            $this->config['timeout'] = (intval($data['timeout']));
+            $this->config['timeout'] = intval($data['timeout']);
             return $errors;
         }
 

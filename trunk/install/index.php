@@ -46,7 +46,11 @@
 			
 			<div class="right-block">
 				<p class="side-title">Welcome!</p>
-				<p>Some text...</p>
+				<p>Thank you for your interest in phpWatch 2.  This is an open-source project that entirely relies on
+                users for support.  If you find phpWatch useful, please consider donating!</p>
+                <a href="http://sourceforge.net/donate/index.php?group_id=233530" class="plain" target="_new"><img
+                src="http://images.sourceforge.net/images/project-support.jpg" class="donate" alt="Support This Project"
+                /></a>
 			</div>
 		</div>
 	</body>

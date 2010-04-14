@@ -15,7 +15,7 @@
 		<div id="content">
 			<div id="left-column">				
 				<div id="subheader">
-					<img src="images/logo.jpg">
+					<img src="images/logo.jpg" />
 					<p><?php p(GuiHelpers::getPage($_GET['page'])); ?></p>
 					<p class="right-side">Installed version: v<?php p(PW2_VERSION); ?></p>
                     <?php
