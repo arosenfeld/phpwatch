@@ -1,11 +1,6 @@
 -- phpMyAdmin SQL Dump
 -- version 3.2.4
 -- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Apr 11, 2010 at 02:39 PM
--- Server version: 5.0.90
--- PHP Version: 5.2.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -14,10 +9,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-
---
--- Database: `arosen_phpwatch2`
---
 
 -- --------------------------------------------------------
 

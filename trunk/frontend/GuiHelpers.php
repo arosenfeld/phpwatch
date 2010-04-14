@@ -47,6 +47,8 @@ class GuiHelpers
 
     public static function formatDateLong($timestamp)
     {
+        if($timestamp == 0)
+            return 'N/A';
         return date('D, M j, Y G:i:s T', $timestamp);
     }
 

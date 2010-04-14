@@ -5,9 +5,9 @@
         public function connect()
         {
             $this->link = @mysql_connect($this->host, $this->user, $this->pw);
-            mysql_select_db($this->db);
             if(!$this->link)
                 return false;
+            mysql_select_db($this->db);
             return true;
         }
 
