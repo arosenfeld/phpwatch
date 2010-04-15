@@ -1,0 +1,330 @@
+\documentclass[10pt]{article}
+\usepackage{booktabs}
+\usepackage{fullpage}
+\usepackage{multirow}
+
+\title{The phpWatch 2 Developer API}
+\author{Aaron M. Rosenfeld}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+This document provides developers with the information necessary to develop full featured, well integrated extensions for
+phpWatch 2.  Nearly all of the externally available functionality is addressed in an attempt to educate developers about
+the full potential of their extensions.
+
+\section{Terminology}
+It is currently possible to create two types of extensions for phpWatch: monitor extensions and channel extensions.  A
+\emph{monitor extension} provides a new way of querying a service.  For example, one could write a monitor that interacts with
+a service in a way unique to the specific service.  This can be extremely powerful for services that may require more
+elaborate techniques to establish a connection or validate output.
+
+\emph{Channel extensions} provide a new way of notifying contacts when a service is found to be offline or
+non-functional.  phpWatch comes with a number of basic channels, namely one that e-mails contacts and one that can
+text-message contacts.  By developing a channel extension, it is possible to notify humans in other ways or to react to
+an outage automatically either with a PHP script alone or by invoking some outside process.
+
+\section{Getting Started}
+Developing extensions in phpWatch is designed to be simple but there is a slight learning curve.  To get started, it is
+recommended that this document is read in its entirety.  Then, use the \texttt{ConnectionMonitor} as an example monitor
+or \texttt{EmailChannel} as an example channel to learn from.  Both are relatively simple.
+
+\section{Source Architecture}
+phpWatch is built using common object-oriented practices with source divided into two directories.  The majority of the
+logic resides in the \texttt{src} directory, within which are two more directories: \texttt{monitors} and
+\texttt{channels}.  All extensions go into one of these two sub-directories and extend either the \texttt{Monitor} or
+\texttt{Channel} class.
+
+The second main source directory is \texttt{frontend}.  This houses all files related to the display of the phpWatch
+frontend.  Extension developers need only be concerned with the \texttt{frontend/forms} directory.  Within this are two
+more sub-directories: \texttt{monitors} and \texttt{channels}.  Much like the \texttt{src} directory, all extensions will
+include code in one of these directories.
+
+It is \emph{extremely} important to understand that some users run phpWatch without a frontend.  That is, they
+manipulate the database through means other than the frontend.  Therefore it is crucial for extension developers to
+understand which code goes within which directory.  \emph{All} code within the \texttt{src} directory must be entirely
+void of HTML.  Nothing within this directory shall dictate the display capabilities of the system.  Conversely, as
+little logic as possible should be placed in \texttt{frontend} to allow other users to implement their own frontend or
+use scripts to manipulate information.
+
+\section{Developing an Extension}
+Extensions are comprised of \emph{logical} code and \emph{display} code.  Logical code handles the manipulation of data,
+provides handles to the display code, and performs other actions specific to the extension.  For monitor extensions,
+this code is placed in \texttt{src/monitors} and for channel extensions in \texttt{src/channels}.  Display code goes in
+either \texttt{frontend/forms/monitors} or \texttt{frontend/forms/channels}.  Such code is comprised mainly of HTML and
+function calls to some helper classes phpWatch provides.
+
+\subsection{Monitors}
+Monitor extensions provide a method of determining the status of services.  Specifically, it handles the querying of a
+given service and discerning if the response indicates that the service is functioning properly (online) or improperly
+(offline).
+
+\subsubsection{Logic}
+All monitors extend the \texttt{Monitor} class within \texttt{src}.  The new class \emph{must} be placed in
+\texttt{src/monitors} in its own file named after the class.  For example, to create a monitor named ``ExampleMonitor'',
+one would create the file \texttt{src/monitors/ExampleMonitor.php} containing a class \texttt{ExampleMonitor} which
+extends \texttt{Monitor}.
+ 
+By design, monitors rarely interact with the database.  This was done to reduce complexity and chances of corruption.
+To maintain information about a monitor, the class variable \texttt{config} is used.  \texttt{\$this->config} is
+accessible to monitor subclasses and is automatically saved to the database when the monitor is added or edited.  Thus,
+if a monitor requires users to set a certain parameter, say a timeout period, the value of
+    \texttt{\$this->config['timeout']} may be used.
+
+Extending \texttt{Monitor} also requires that the developer implement at least the following methods:
+\begin{center}
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function queryMonitor()}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{Handles the actual querying of the monitor.  This may entail opening a socket, sending a
+        ping, etc.  The function must return \texttt{true} or \texttt{false} if the monitor is considered online or
+        offline respectively.  This function is only called during cronjobs or manual re-querying.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                None \\
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                \texttt{true} if monitor is online \\
+                \texttt{false} if monitor is offline \\
+             \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\\
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function customProcessAddEdit(\$data, \$errors)}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{This method is called when the form to add or edit a monitor is submitted.  The \texttt{\$data} array is simply
+        the \texttt{\$\_POST} or \texttt{\$\_GET} array from the submission.  All fields added by this monitor shall be
+        validated in this method.  If errors are encountered, append them to the \texttt{\$errors} array, keyed by
+        form-field name with the value of an error message string.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                \texttt{\$data}: Key-value array of form data. \\
+                \texttt{\$errors}: Array of errors.  Append to this array if necessary. \\
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                Possibly modified \texttt{\$errors} array.
+            \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\\
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function customProcessDelete()}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{This method is called when the form to delete a monitor is submitted.  It is
+        the invoked before built-in phpWatch functions that delete any information from the database and can therefore
+        function with full querying capabilities.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                None
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                None
+             \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\\
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function getName()}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{Gets the name of the monitor.  This should return a short string such as
+        ``Connection Monitor'' as it's used to populate form field such as drop down menus.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                None
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                Short name of monitor as a string.
+             \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\\
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function getDescription()}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{Gets a description of the monitor.  This should return a string that describes
+        how the monitor queries services.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                None
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                Description of monitor type.
+             \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\subsection{Channels}
+Channel extensions provide a method of method of notification when a monitor is found to be offline.  More technically,
+it dictates the set of actions to take when a monitor does not respond or malfunctions.
+
+All channels extend the \texttt{Channel} class within \texttt{src}.  The new class \emph{must} be placed in
+\texttt{src/channel} in its own file named after the class.  For example, to create a channel named ``ExampleChannel'',
+one would create the file \texttt{src/channels/ExampleChannel.php} containing a class \texttt{ExampleChannel} which
+extends \texttt{Channel}.
+ 
+Like monitors, channels rarely interact with the database.  To maintain information about a channel, the class variable
+\texttt{config} is used.  \texttt{\$this->config} is accessible to channel subclasses and is automatically saved to the
+database when the channel is added or edited.  Thus, if a channel requires users to set a certain parameter, say an
+e-mail address, the value of \texttt{\$this->config['email\_address']} may be used.
+
+Additionally, extending \texttt{Monitor} requires that the developer implement at least the following methods:
+\begin{center}
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function doNotify()}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{Called when a notification should be sent.  This method shall invoke custom
+        code which sends a notification specific to the channel.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                \texttt{\$monitor}: A reference to the monitor object that was found to be offline. \\
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                None
+             \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\\
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function customProcessAddEdit(\$data, \$errors)}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{This method is called when the form to add or edit a channel is submitted.  The
+        \texttt{\$data} array is simply the \texttt{\$\_POST} or \texttt{\$\_GET} array from the submission.  All fields
+        added by this channel shall be validated in this method.  If errors are encountered, append them to the
+        \texttt{\$errors} array, keyed by form-field name with the value of an error message string.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                \texttt{\$data}: Key-value array of form data. \\
+                \texttt{\$errors}: Array of errors.  Append to this array if necessary. \\
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                Possibly modified \texttt{\$errors} array.
+            \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\\
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function customProcessDelete()}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{This method is called when the form to delete a channel is submitted.  It is
+        the invoked before built-in phpWatch functions that delete any information from the database and can therefore
+        function with full querying capabilities.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                None
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                None
+             \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\\
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function getName()}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{Gets the name of the channel.  This should return a short string such as
+        ``E-mail Channel'' as it's used to populate form field such as drop down menus.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                None
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                Short name of channel as a string.
+             \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\\
+    \begin{tabular}{p{.25\textwidth}p{.5\textwidth}}
+        \toprule
+        \multicolumn{2}{l}{\texttt{public function getDescription()}} \\
+        \midrule
+        \multicolumn{2}{p{.8\textwidth}}{Gets a description of the channel.  This should return a string that describes
+        how the channel notifies contacts.} \\
+        \midrule
+        \textbf{Parameters} & 
+            \begin{tabular}{p{.5\textwidth}}
+                None
+            \end{tabular} \\ \midrule
+        \textbf{Returns} &
+             \begin{tabular}{p{.5\textwidth}}
+                Description of channel type.
+             \end{tabular} \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\subsection{Display}
+Display code for monitors and channels both consists of a form that allows for modification of \texttt{\$config} values.
+As in the example above, if there is an entry in \texttt{\$this->config['email\_address']}, there will be a form field
+for ``E-mail Address''.  It's important to note that fields common to all monitors (hostname, port, etc.) are generated
+    automatically along with the form start/stop HTML.  Channels have no user-editable fields and therefore only the
+    form start/stop HTML is automatically generated.
+
+To create a form, a file named exactly the same as the monitor or channel must be placed in \\
+\texttt{frontend/forms/monitor} or \texttt{frontend/forms/channel} respectively.  For example, to create a form for a
+monitor named \texttt{ExampleMonitor} create the file \texttt{frontend/forms/monitor/ExampleMonitor.php}.  Field
+generation is made simple with phpWatch.  The \texttt{FormHelpers} class provides methods to create most HTML field
+types along with facilities for error handling.  A detailed summary of each method isn't shown but all fields except
+select boxes can be created with
+
+\begin{center}
+    \texttt{FormHelpers::createTYPE(\$name, \$value, \$attribs = null)}
+\end{center}
+
+where \texttt{TYPE} should be replaced with a field type such as \texttt{Text}, \texttt{Hidden}, \texttt{Checkbox}, etc.
+
+Select boxes can be created in a similar way with the only difference being the second parameter is now an array of
+options, each generated with \texttt{FormHelpers::getOption(\$display, \$value, \$attribs = null)}.
+
+See \texttt{frontent/FormHelpers.php} for more information on form creation and \\
+\texttt{frontend/forms/monitors/ConnectionMonitor.php} for an example.
+
+\section{Considerations}
+Developing an extension for phpWatch was designed to be as simple as possible while still placing a great deal of
+control in the hands of developers.  However, with this control comes the ability to cause error.  In particular,
+monitor query code and channel notification code that fails either due to syntax error or exceptions will likely cause a
+failure of cronjobs.
+
+\section{When Not to Develop an Extension}
+The developers of phpWatch want others to develop extensions.  In fact, the \emph{majority} of development time was
+spent assuring others could quickly learn and integrate into phpWatch.  However, it is extremely important to realize
+what should and what shouldn't be its own extension.
+
+To make this decision, one must ask what is unique about the desired monitor or channel.  If you find yourself making
+extensions that vary only in terms of parameters, that is a poor extension.  For example, making a monitor that waits 4
+seconds for a server response and then making one that waits for a 10 second response is unnecessary.  Make a monitor
+that waits $n$ seconds instead.
+
+Although a trivial example, it is important to understand.  A good indicator of a poor monitor or channel is one with
+nothing being set in the \texttt{\$this->configs} array.  This indicates that the monitor serves exactly one purpose
+with no flexibility.  Although there are times this is acceptable, many times it is not.
+
+\end{document}
