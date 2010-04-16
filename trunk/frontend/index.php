@@ -42,24 +42,21 @@
                 </div>
                 <?php require('./pages/' . GuiHelpers::getPage($_GET['page']) . '.php'); ?>
 			</div>
-			
-			<div class="right-block">
-				<p class="side-title">Total Monitors:</p>
-				<p><?php p(GuiHelpers::getStatistic('monitor_count')); ?></p>
-				<p class="side-title">Total Contacts:</p>
-				<p><?php p(GuiHelpers::getStatistic('contact_count')); ?></p>
-				<p class="side-title">Total Log Entries:</p>
-				<p><?php p(GuiHelpers::getStatistic('log_count')); ?></p>
-				<p class="side-title">Last Offline:</p>
+            <div class="right-block">
+                <p class="side-title">Total Monitors:</p>
+                <p><?php p(GuiHelpers::getStatistic('monitor_count')); ?></p>
+                <p class="side-title">Total Contacts:</p>
+                <p><?php p(GuiHelpers::getStatistic('contact_count')); ?></p>
+                <p class="side-title">Total Log Entries:</p>
+                <p><?php p(GuiHelpers::getStatistic('log_count')); ?></p>
+                <p class="side-title">Last Offline:</p>
                 <p><?php p(GuiHelpers::formatDateLong(GuiHelpers::getStatistic('last_offline'))); ?></li>
-            </div>
-			<div class="right-block">
                 <p class="center"><strong>Please consider donating to phpWatch!</strong></p>
                 <a href="http://sourceforge.net/donate/index.php?group_id=233530" class="plain" target="_new"><img
                 src="http://images.sourceforge.net/images/project-support.jpg" class="donate" alt="Support This Project"
                 /></a>
                 <p class="center"><a href="http://phpwatch.net" target="_new">phpWatch homepage</a></p>
-			</div>
+            </div>
 		</div>
 	</body>
 </html>
