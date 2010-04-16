@@ -2,6 +2,13 @@
   phpWatch 2.x.x Beta Release
 ===============================
 
+Thank you for your interest in phpWatch!  After installation, please read the user-guide in the "docs" directory.  If
+you find phpWatch helpful, please consider donating at:
+
+   http://phpwatch.net/donate 
+
+===============================
+
 NOTES :
     This is a release of phpWatch 2.  As such, it is not compatible with any phpWatch 1.x.x and must be installed in a
     clean directory, free of any phpWatch 1.x.x files.  Further, it is not currently possible to import settings,
@@ -34,6 +41,10 @@ CRONJOB SETUP :
 
 Please report all errors to the developer at:
 
+    http://sourceforge.net/projects/phpwatch/
+
+    - or -
+
     aaron@aaron-rosenfeld.com
 
-Feature requests will also be considered.
+Feature requests are also welcomed.

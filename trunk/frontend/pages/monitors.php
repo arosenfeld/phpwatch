@@ -65,14 +65,12 @@
             if(is_array($contacts)) :
                 foreach($contacts as $i => $c) :
                     if($i > 0) : p(', '); endif;
-        ?>
-                <a href="?page=contact&edit=<?php p($c['id']); ?>"><?php p($c['name']); ?></a>
-            <?php 
+                    p('<a href="?page=contact&edit=' . $c['id'] . '">' . $c['name'] . '</a>');
                 endforeach;
             else :
                 p('None');
             endif;
-            ?>
+        ?>
         <li><strong>Last Query:</strong>
         <?php 
             if($monitor->getStatus() == STATUS_UNPOLLED)

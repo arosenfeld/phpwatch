@@ -21,7 +21,8 @@
 ?>
 <div class="message">
     The contact has been saved. <br />
-    <a href="?page=contacts">Return to contacts</a>
+    <a href="?page=contact&id=<?php p($contact->getId()); ?>">Return to "<?php p($contact->getName()); ?>"</a> | 
+    <a href="?page=contacts">Return to contacts list</a>
 </div>
 <?php
         }
@@ -43,7 +44,10 @@
             <div class="error"><?php FormHelpers::checkError('name', $errors); ?></div>
         </div>
     <div class="form-field"><center><?php FormHelpers::createButton('Submit', 'onClick="document.general.submit()"'); ?></center></div>
-    <?php FormHelpers::endForm(); ?>
+    <?php
+        FormHelpers::endForm();
+        if($contact->getId() != null) :
+    ?>
     <h2>Notification Channels</h2>
     <strong>Description:</strong>
     <div class="type-descr">Additions, deletions, and modifications of channels will be saved automatically.</div>
@@ -83,6 +87,7 @@
         FormHelpers::endForm();
     ?>
     </div>
+    <?php endif; ?>
 </div>
 <?php
     }

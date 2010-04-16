@@ -38,6 +38,7 @@ h2.waiting { color: #7e7e7e; }
 .right-block img { border: 1px solid #fff; height: 135px; margin-right: 5px; width: 135px; }
 .right-block p { font-family: Verdana, Arial, sans-serif; margin: 2px; text-align: justify; }
 .right-block p.side-title { color: #2fa426; font-weight: bold; }
+.right-block p.center { text-align: center; }
 .right-block input[type=button] { border: 1px solid #b9b9b9; color: #2fa426; margin-bottom: 5px; width: 150px; }
 
 .section { margin: 10px; }
