@@ -26,6 +26,7 @@
             <?php FormHelpers::endForm(); ?>
         </li>
     </ul>
+        Display: <a href="?page=monitors">Expand All</a> - <a href="?page=monitors&expand=none">Collapse All</a>
 </div>
 <div class="section">
     <h1>Monitors</h1>
@@ -51,13 +52,23 @@
         }
     ?>
     <div class="info">
-        <?php $monitor->getAlias() ? p('<strong>' . $monitor->getAlias() . '</strong> - ') : ''; ?><?php p($monitor->getHostname()); ?>:<?php p($monitor->getPort()); ?>
         <div class="right">
             <a href="?page=monitor&id=<?php p($monitor->getId()); ?>">Edit</a> -
             <a href="?page=monitor-delete&id=<?php p($monitor->getId()); ?>">Delete</a> - 
             <a href="?page=monitors&query=<?php p($monitor->getId()); ?>">Re-query</a>
+            <?php
+                if(!GuiHelpers::isExpanded($monitor->getId())) :
+            ?>
+                - <a href="?page=monitors&expand=<?php p($monitor->getId()); ?>">Expand</a>
+            <?php
+                endif;
+            ?>
         </div>
+        <?php $monitor->getAlias() ? p('<strong>' . $monitor->getAlias() . '</strong> - ') : ''; ?><?php p($monitor->getHostname()); ?>:<?php p($monitor->getPort()); ?>
     </div>
+    <?php
+            if(GuiHelpers::isExpanded($monitor->getId())) :
+    ?>
     <ul class="information">
         <li><strong>Contacts:</strong>
         <?php
@@ -95,5 +106,8 @@
             $total['online'] . ' of ' . $total['total'] . ')' : 'N/A'); ?>
         </li>
     </ul>
-    <?php endforeach; ?>
+    <?php
+            endif;
+        endforeach;
+    ?>
 </div>

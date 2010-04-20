@@ -76,6 +76,13 @@ class GuiHelpers
             return array(0, 0);
     }
 
+    public static function isExpanded($id)
+    {
+        if(!isset($_GET['expand']) || $_GET['expand'] == $id || $_GET['expand'] == 'all')
+            return true;
+        return false;
+    }
+
     public static function checkVersion()
     {
         $handle = @fopen('http://phpwatch.net/version', 'r');
