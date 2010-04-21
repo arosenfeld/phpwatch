@@ -198,6 +198,7 @@
                     {
                         $this->status = STATUS_ONLINE;
                         $this->fail_count = 0;
+                        $this->send_notifications = true;
                     }
                     else
                     {

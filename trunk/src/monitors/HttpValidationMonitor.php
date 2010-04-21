@@ -57,12 +57,13 @@
 
         public function queryMonitor()
         {
-            $sock = @fsockopen($this->hostname, $this->port, $errno, $errstr, $this->config['timeout']);
+            $sock = @fsockopen($this->hostname, $this->port, $errno, $errstr, intval($this->config['timeout']));
             if(!$sock)
                 return false;
             $req  = "GET / HTTP/1.1\r\n";
             $req .= "Host: " . $this->hostname . "\r\n";
-            $req .= "Connection: Close\r\n\r\n";    fwrite($sock, $req);
+            $req .= "Connection: Close\r\n\r\n";
+            fwrite($sock, $req);
 
             $resp = '';
             while(!feof($sock))
