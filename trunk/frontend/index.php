@@ -39,6 +39,7 @@
                     <p><?php p(GuiHelpers::formatDateLong(GuiHelpers::getStatistic('last_offline'))); ?></li>
                 </div>
                 <div>
+                    <p class="side-title">Version Check:</p>
                     <?php
                         if(isset($_GET['update']))
                         {
@@ -53,6 +54,7 @@
                     ?>
                 </div>
                 <div>
+                    <p class="side-title">Support:</p>
                     <p class="center"><strong>Please consider donating to phpWatch!</strong></p>
                     <a href="http://sourceforge.net/donate/index.php?group_id=233530" class="plain" target="_new"><img
                     src="http://images.sourceforge.net/images/project-support.jpg" class="donate" alt="Support This Project"
