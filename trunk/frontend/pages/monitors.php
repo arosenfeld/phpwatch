@@ -76,7 +76,7 @@
             if(is_array($contacts)) :
                 foreach($contacts as $i => $c) :
                     if($i > 0) : p(', '); endif;
-                    p('<a href="?page=contact&edit=' . $c['id'] . '">' . $c['name'] . '</a>');
+                    p('<a href="?page=contact&id=' . $c['id'] . '">' . $c['name'] . '</a>');
                 endforeach;
             else :
                 p('None');
