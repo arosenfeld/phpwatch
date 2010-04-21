@@ -85,18 +85,24 @@ class GuiHelpers
 
     public static function checkVersion()
     {
-        $handle = @fopen('http://phpwatch.net/version', 'r');
-        $v = @fgets($handle);
-        @fclose($handle);
-        if($v)  
-        {
-            $v = explode('|', $v);
-            if(strtolower(trim($v[0])) != strtolower(trim(PW2_VERSION)))
-                return array(false, $v[2]);
-            else
-                return array(true, 'Up to date');
-        }
-        return array(false, false);
+        $sock = @fsockopen('phpwatch.net', 80, $errno, $errstr, 5);
+        if(!$sock)
+            return array(false, 'Request timed out.');
+        $req  = "GET /version HTTP/1.1\r\n";
+        $req .= "Host: phpwatch.net\r\n";
+        $req .= "Connection: Close\r\n\r\n";    fwrite($sock, $req);
+
+        $resp = '';
+        while(!feof($sock))
+            $resp .= fread($sock, 1024);
+        fclose($sock);
+        $resp = explode("\r\n", $resp);
+        $resp = trim($resp[sizeof($resp) - 1]);
+
+        list($version, $date, $url) = explode('|', $resp);
+        if(strtolower(trim($version)) != strtolower(trim(PW2_VERSION)))
+            return array(false, 'New version available <a href="' . $url . '" target="_new">here</a>');
+        return array(true, 'Up to date');
     }
 }
 ?>
