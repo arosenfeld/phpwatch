@@ -14,6 +14,11 @@ NOTES :
     clean directory, free of any phpWatch 1.x.x files.  Further, it is not currently possible to import settings,
     monitors, nor contact information from phpWatch 1.x.x into a 2.x.x released.
 
+UPDATING :
+    Updating from an existing phpWatch 2.x.x installation is done by copying the new files, excluding config.php and the
+    /install directory, into your existing phpWatch directory.  Alternatively, all files including these exclusions can
+    be copied but the install process will be re-run although no database changes will be made.
+
 EASY INSTALL :
     1) Change the permissions on config.php within the root directory to allow for writing.
     2) Navigate to the install directory from a web browser and follow the instructions.
