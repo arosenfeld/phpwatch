@@ -3,9 +3,10 @@
 ?>
 <div class="message left">
     <p>Thank you for choosing <strong>phpWatch</strong> as your service monitoring solution.  Before beginning the
-    installation process, please assure that the following steps are compelete:
+    installation process, please assure that the following steps are compelete:</p>
     <ul>
-        <li><strong>config.php Writable: </strong> 
+        <li>The database for installation is emptied of tables from phpWatch 1.x.x or other applications.</li>
+        <li>config.php is writable:
         <?php
             if(is_writable('../config.php'))
             {

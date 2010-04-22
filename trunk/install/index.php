@@ -18,22 +18,6 @@
 				<div id="subheader">
 					<img src="../frontend/images/logo.jpg">
 					<p>Installer</p>
-					<p class="right-side">Version: v<?php p(PW2_VERSION); ?></p>
-                    <?php
-                        list($good, $info) = GuiHelpers::checkVersion();
-                        if($good)
-                        {
-                            p('<p class="version-notice-good">Up to date</p>');
-                        }
-                        else
-                        {
-                            if($info === false)
-                                p('<p class="version-notice-bad">Unable to check version</p>');
-                            else
-                                p('<p class="version-notice-bad">Old version.  Update <a href="' . $info . '"
-                                target="_new">here</a></p>');
-                        }
-                    ?>
 				</div>
                 <?php
                     if($_POST)
