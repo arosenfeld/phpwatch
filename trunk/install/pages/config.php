@@ -21,7 +21,8 @@
         if($fh === false)
         {
 ?>
-        <div class="message">
+        <div class="section">
+            <h1>Failure</h1>
             The installation could not open <tt>config.php</tt> in the root phpWatch directory.  Please assure it exists
             and has read/write permissions.  Refresh the page to retry.
         </div>
@@ -33,7 +34,8 @@
             if(fwrite($fh, $template) === false)
             {
 ?>
-        <div class="message">
+        <div class="section">
+            <h1>Failure</h1>
             The installation could not write to <tt>config.php</tt> in the root phpWatch directory.  Please assure it
             exists and has read/write permissions.  Refresh the page to retry.
         </div>
@@ -45,7 +47,10 @@
         if(!$errors)
         {
 ?>
-<div class="message">The configuration file was written successfully.  Click continue to import the database structure.</div>
+<div class="section">
+    <h1>Success!</h1>
+    The configuration file was written successfully.  Click continue to import the database structure.
+</div>
 <div class="form-field">
     <?php FormHelpers::startForm('POST', './index.php'); ?>
     <?php FormHelpers::createHidden('page', 'import'); ?>

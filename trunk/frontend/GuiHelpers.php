@@ -87,7 +87,10 @@ class GuiHelpers
     {
         $sock = @fsockopen('phpwatch.net', 80, $errno, $errstr, 5);
         if(!$sock)
-            return array(false, 'Request timed out.');
+        {
+            return array(false, '<p class="version-notice-bad">Request timed out.  Check <a
+            href="https://sourceforge.net/projects/phpwatch/" target="_new">here</a> for updates.');
+        }
         $req  = "GET /version HTTP/1.1\r\n";
         $req .= "Host: phpwatch.net\r\n";
         $req .= "Connection: Close\r\n\r\n";    fwrite($sock, $req);
@@ -101,7 +104,8 @@ class GuiHelpers
 
         list($version, $date, $url) = explode('|', $resp);
         if(strtolower(trim($version)) != strtolower(trim(PW2_VERSION)))
-            return array(false, 'New version available <a href="' . $url . '" target="_new">here</a>');
+            return array(false, '<p class="version-notice-bad">New version available <a href="' . $url . '"
+            target="_new">here</a></p>');
         return array(true, 'Up to date');
     }
 }

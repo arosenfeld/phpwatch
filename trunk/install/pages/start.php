@@ -1,7 +1,8 @@
 <?php
     $errors = false;
 ?>
-<div class="message left">
+<div class="section">
+    <h1>phpWatch Installer</h1>
     <p>Thank you for choosing <strong>phpWatch</strong> as your service monitoring solution.  Before beginning the
     installation process, please assure that the following steps are compelete:</p>
     <ul>

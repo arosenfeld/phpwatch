@@ -19,8 +19,6 @@ h2.waiting { color: #7e7e7e; }
 #subheader img { float: left; }
 #subheader p { color: #000; font-size: 20px; margin: 0; padding-top: 0; text-align: right; text-transform: uppercase; }
 #subheader p.right-side { color: #2fa426; font-size: 12px; padding-top: 0; }
-#subheader p.version-notice-good { font-size:12px; color: #2fa426; }
-#subheader p.version-notice-bad { font-size:12px; color: #ff0000; }
 
 .menu { margin: 10px; }
 .menu ul { background-color: #2fa426; padding: 5px; }
@@ -41,6 +39,8 @@ h2.waiting { color: #7e7e7e; }
 .right-block p.side-title { color: #2fa426; font-weight: bold; }
 .right-block p.center { text-align: center; }
 .right-block input[type=button] { border: 1px solid #b9b9b9; color: #2fa426; margin-bottom: 5px; width: 150px; }
+
+p.version-notice-bad { font-size:12px; color: #ff0000; text-align: center; }
 
 .section { margin: 10px; }
 .section p { font-size: 12px; }
