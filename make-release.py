@@ -25,3 +25,4 @@ print 'Creating ' + filename + '.zip'
 os.system('zip -r ' + filename + '.zip trunk')
 
 print '*** COMPLETE ***'
+print 'Remember to bump version file'
