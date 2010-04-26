@@ -11,6 +11,11 @@
             return true;
         }
 
+        private function sanitize($value)
+        {
+            return mysql_real_escape_string($value);
+        }
+
         private function fetchAssoc($result)
         {
             return mysql_fetch_assoc($result);
@@ -37,6 +42,8 @@
 
         public function executeInsert($fields, $table)
         {
+            foreach($fields as $k => $v)
+                $fields[$k] = MySQL::sanitize($v);
             $this->query('INSERT INTO `' . $table . '` (`' . implode('`,`', array_keys($fields)) . '`) VALUES (\'' .
                 implode('\',\'', array_values($fields)) . '\')');
             return mysql_insert_id($this->link);
@@ -46,7 +53,7 @@
         {
             $updates = array();
             foreach($fields as $k => $v)
-                $updates[] = $k . '=\'' . $v . '\'';
+                $updates[] = $k . '=\'' . MySQL::sanitize($v) . '\'';
             return $this->query('UPDATE `' . $table . '` SET ' . implode(',', $updates) . ' ' . $suffix);
         }
 
