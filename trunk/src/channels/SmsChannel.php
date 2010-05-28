@@ -5,9 +5,21 @@
     class SmsChannel extends Channel
     {
         public static $carriers = array(
-            'Verizon' => 'vtext.com',
+            'Alltel'    => 'message.alltel.com',
+            'AT&amp;T' => 'txt.att.net',
+            'Boost Mobile' => 'myboostmobile.com',
             'Cingular' => 'txt.att.net',
-            'AT&amp;T' => 'txt.att.net'
+            'Cricket'   => 'sms.mycricket.com',
+            'Nextel'    => 'messaging.nextel.com',
+            'Qwest'     => 'qwestmp.com',
+            'Rogers'    => 'pcs.rogers.com',
+            'Sprint'    => 'messaging.sprintpcs.com',
+            'SunCom'    => 'tms.suncom.com',
+            'T-Mobile'  => 'tmomail.net',
+            'Telus'     => 'msg.telus.com',
+            'U.S. Cellular' => 'email.uscc.net',
+            'Verizon' => 'vtext.com',
+            'Virgin'    => 'vmobl.com',
         );
 
         public function getSubjectFormat()
