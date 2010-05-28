@@ -37,8 +37,8 @@ hostname, port, and alias.</div>
     <?php
         $options = array();
         foreach(array_keys(SmsChannel::$carriers) as $c)
-            $options[] = FormHelpers::getOption($c, $c, ($channel->getCarrier() == $c ? 'selected="selected"' : null));
+            $options[] = FormHelpers::getOption($c, urlencode($c), ($channel->getCarrier() == $c ? 'selected="selected"' : null));
         FormHelpers::createSelect('carrier', $options);
     ?>
-    <div class="error"><?php FormHelpers::checkError('number', $errors); ?></div>
+    <div class="error"><?php FormHelpers::checkError('carrier', $errors); ?></div>
 </div>
