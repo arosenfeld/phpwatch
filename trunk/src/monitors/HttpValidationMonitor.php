@@ -39,6 +39,11 @@
             return $this->config['mode'] ? $this->config['mode'] : HttpValidationMonitor::$MODE_DOES_CONTAIN;
         }
 
+        public function getPath()
+        {
+            return $this->config['path'];
+        }
+
         public function isValid($resp)
         {
             if($this->getMatchMethod() == HttpValidationMonitor::$MATCH_FIND)
@@ -60,7 +65,7 @@
             $sock = @fsockopen($this->hostname, $this->port, $errno, $errstr, intval($this->config['timeout']));
             if(!$sock)
                 return false;
-            $req  = "GET / HTTP/1.1\r\n";
+            $req  = "GET /" . $this->config['path'] . " HTTP/1.1\r\n";
             $req .= "Host: " . $this->hostname . "\r\n";
             $req .= "Connection: Close\r\n\r\n";
             fwrite($sock, $req);
@@ -89,6 +94,9 @@
             $this->config['match_str'] = $data['match_str'];
             $this->config['mode'] = $data['mode'];
             $this->config['match_method'] = $data['match_method'];
+            $this->config['path'] = $data['path'];
+            if(strlen($this->config['path']) > 0 && $this->config['path'][0] == '/')
+                $errors['path'] = 'Path must not start with a slash.';
             return $errors;
         }
 

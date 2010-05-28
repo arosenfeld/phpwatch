@@ -5,6 +5,12 @@
     <div class="error"><?php FormHelpers::checkError('timeout', $errors); ?></div>
 </div>
 <div class="form-field">
+    <strong>Path:</strong>
+    <div class="descr">The path to a page on the host above without a leading slash.  For example, "index.html".</div>
+    <?php FormHelpers::createText('path', $monitor->getPath()); ?>
+    <div class="error"><?php FormHelpers::checkError('path', $errors); ?></div>
+</div>
+<div class="form-field">
     <strong>Pattern:</strong>
     <div class="descr">The pattern to find in the response.</div>
     <?php FormHelpers::createText('match_str', $monitor->getMatchString(), 'size="50"'); ?>
