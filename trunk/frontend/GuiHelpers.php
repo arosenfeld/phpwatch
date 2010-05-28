@@ -32,10 +32,11 @@ class GuiHelpers
         return $GLOBALS['PW_DB']->executeRaw('SELECT DISTINCT contacts.id, contacts.name FROM contacts, channels WHERE channels.owner =
         contacts.id AND channels.id IN (' . implode(',', $monitor->getChanIds()) . ')');
     }
+
     public static function getStatistic($field)
     {
-        $r = $GLOBALS['PW_DB']->executeRaw('SELECT COUNT(monitors.id) AS monitor_count, COUNT(contacts.id) AS contact_count
-        FROM monitors, contacts');
+        $r = $GLOBALS['PW_DB']->executeRaw('SELECT COUNT(monitors.id) AS monitor_count, (SELECT COUNT(contacts.id) FROM
+        contacts) AS contact_count FROM monitors, contacts');
         $r = $r[0];
         $lcount = $GLOBALS['PW_DB']->executeRaw('SELECT COUNT(*) AS log_count FROM statistics');
         $r['log_count'] = $lcount[0]['log_count'];
