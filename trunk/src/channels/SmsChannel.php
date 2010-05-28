@@ -81,6 +81,7 @@
                 $errors['number'] = 'Invalid number.  Must be numeric and at least 7 digits.';
             $this->config['number'] = $data['number'];
 
+            $data['carrier'] = urldecode($data['carrier']);
             if(!array_key_exists($data['carrier'], SmsChannel::$carriers))
                 $errors['carrier'] = 'Invalid carrier.';
             $this->config['carrier'] = $data['carrier'];
