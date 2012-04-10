@@ -12,7 +12,7 @@ you find phpWatch helpful, please consider donating at:
 NOTES :
     This is a release of phpWatch 2.  As such, it is not compatible with any phpWatch 1.x.x and must be installed in a
     clean directory, free of any phpWatch 1.x.x files.  Further, it is not currently possible to import settings,
-    monitors, nor contact information from phpWatch 1.x.x into a 2.x.x released.
+    monitors, nor contact information from phpWatch 1.x.x into a 2.x.x release.
 
 UPDATING :
     Updating from an existing phpWatch 2.x.x installation is done by copying the new files, excluding config.php and the

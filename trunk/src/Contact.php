@@ -95,9 +95,11 @@
         public function processDelete($data)
         {
             $chans = $GLOBALS['PW_DB']->executeSelect('id', 'channels', 'WHERE owner=' . intval($data['id']));
+            print_r($chans);
             foreach($chans as $chan)
             {
-                $channel = Channel::fetch($chan);
+                $channel = Channel::fetch(intval($chan['id']));
+                print_r($channel);
                 $channel->processDelete();
             }
             $GLOBALS['PW_DB']->executeDelete('contacts', 'WHERE id=' . intval($data['id']));
