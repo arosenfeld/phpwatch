@@ -5,7 +5,7 @@ import re
 release_dir = '/tmp/release'
 
 print 'Removing old directory'
-os.system('rm -rf /tmp/pwrelease')
+os.system('rm -rf ' . release_dir)
 
 print 'Fetching newest repository'
 os.system('svn export https://phpwatch.svn.sourceforge.net/svnroot/phpwatch/version-2-dev/trunk ' + release_dir)
