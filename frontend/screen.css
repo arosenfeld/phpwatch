@@ -57,7 +57,7 @@ p.version-notice-bad { font-size:12px; color: #ff0000; text-align: center; }
 
 #content:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
 
-div.info { /*border-bottom: 1px dashed #000;*/ color: #000; font-size: 12px; padding-bottom: 2px; }
+div.info { color: #000; font-size: 12px; padding-bottom: 2px; }
 
 div.info div.right { float: right; }
 div.display { float: right; }
@@ -71,5 +71,3 @@ div.error { display: inline; color: #ee0022; }
 form { margin: 0px; padding: 0px; }
 ul.options { margin: 2px; padding: 0 0; }
 ul.options li { list-style-type: none; margin: 0 0; }
-
-img.donate { border: none; width: 88px; height: 32px; padding: 5px; }

@@ -90,7 +90,7 @@ class GuiHelpers
         if(!$sock)
         {
             return array(false, '<p class="version-notice-bad">Request timed out.  Check <a
-            href="https://sourceforge.net/projects/phpwatch/" target="_new">here</a> for updates.');
+            href="http://phpwatch.net" target="_new">here</a> for updates.');
         }
         $req  = "GET /version HTTP/1.1\r\n";
         $req .= "Host: phpwatch.net\r\n";
