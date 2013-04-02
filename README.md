@@ -34,9 +34,9 @@ interaction, a cronjob (or scheduled task in Windows) must be setup to run
 For example, to setup a cronjob that runs every 5 minutes, run "crontab -e" and
 add the following line to the end of the file:
 
-    $ */5 * * * * php /path/to/phpwatch/root/directory/cron.php
+    */5 * * * * php /path/to/phpwatch/root/directory/cron.php
 
 Bugs & Feature Requests
 -----------------------
 Please report all bugs and request new features on
-[GitHub](https://github.com/arosenfeld/phpwatch/issues)
+[GitHub](https://github.com/arosenfeld/phpwatch/issues).
