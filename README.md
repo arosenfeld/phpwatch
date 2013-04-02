@@ -1,9 +1,12 @@
-phpWatch -- A Flexible Service Monitoring System
+phpWatch - A Flexible Service Monitoring System
 ================================================
 
-Thank you for your interest in phpWatch!  After installation, please read the
-user-guide in the "docs" directory.  If you find phpWatch helpful, please
-consider donating at [here](http://phpwatch.net/donate).
+phpWatch is a flexible service monitoring system. Features include multiple
+contact methods for when services malfunction, multiple query methods,
+statistics gathering, and a fully extensible architecture for developers.
+
+If you find phpWatch helpful, please consider donating at
+[Pledgie](http://www.pledgie.com/campaigns/19717).
 
 Easy Install
 -----------------------
