@@ -9,7 +9,7 @@
     The channel has been deleted. <br />
     <a href="?page=contact&id=<?php p($owner); ?>">Return to contact</a>
 </div>
-        <?
+        <?php
     }
     else
     {

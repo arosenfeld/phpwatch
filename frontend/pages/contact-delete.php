@@ -8,7 +8,7 @@
     The contact has been deleted. <br />
     <a href="?page=contacts">Return to contacts</a>
 </div>
-        <?
+        <?php
     }
     else
     {

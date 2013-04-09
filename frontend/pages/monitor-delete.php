@@ -8,7 +8,7 @@
     The monitor has been deleted. <br />
     <a href="?page=monitors">Return to monitors</a>
 </div>
-        <?
+        <?php
     }
     else
     {
