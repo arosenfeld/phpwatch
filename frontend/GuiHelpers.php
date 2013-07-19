@@ -35,15 +35,39 @@ class GuiHelpers
 
     public static function getStatistic($field)
     {
-        $r = $GLOBALS['PW_DB']->executeRaw('SELECT COUNT(monitors.id) AS monitor_count, (SELECT COUNT(contacts.id) FROM
-        contacts) AS contact_count FROM monitors, contacts');
-        $r = $r[0];
-        $lcount = $GLOBALS['PW_DB']->executeRaw('SELECT COUNT(*) AS log_count FROM statistics');
-        $r['log_count'] = $lcount[0]['log_count'];
-        $offline = $GLOBALS['PW_DB']->executeRaw('SELECT MAX(`key`) AS last_offline FROM `statistics` WHERE series LIKE \'monitor%\' AND
-        value = 0');
-        $r['last_offline'] = $offline[0]['last_offline'];
-        return $r[$field];
+        switch ($field) {
+            case 'monitor_count':
+                $result = $GLOBALS['PW_DB']->executeRaw('SELECT COUNT(*) AS monitor_count FROM monitors');
+                if (isset($result[0]['monitor_count'])) {
+                    return $result[0]['monitor_count'];
+                }
+                return 0;
+                break;
+            
+            case 'contact_count':
+                $result = $GLOBALS['PW_DB']->executeRaw('SELECT COUNT(*) AS contact_count FROM contacts');
+                if (isset($result[0]['contact_count'])) {
+                    return $result[0]['contact_count'];
+                }
+                return 0;
+                break;
+            
+            case 'log_count':
+                $result = $GLOBALS['PW_DB']->executeRaw('SELECT COUNT(*) AS log_count FROM statistics');
+                if (isset($result[0]['log_count'])) {
+                    return $result[0]['log_count'];
+                }
+                return 0;
+                break;
+            
+            case 'last_offline':
+                $result = $GLOBALS['PW_DB']->executeRaw('SELECT MAX(`key`) AS last_offline FROM `statistics` WHERE series LIKE \'monitor%\' AND value = 0');
+                if (isset($result[0]['last_offline'])) {
+                    return $result[0]['last_offline'];
+                }
+                return 0;
+                break;
+        }
     }
 
     public static function formatDateLong($timestamp)
