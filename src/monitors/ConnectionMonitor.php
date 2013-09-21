@@ -19,7 +19,18 @@
 
         public function queryMonitor()
         {
-            $sock = @fsockopen($this->hostname, $this->port, $errno, $errstr, $this->config['timeout']);
+            $hostname = $this->hostname;
+            
+            // Handle https-Requests (Port 443)
+            if (443 == $this->port) {
+                $hostname = ($this->port == 443 ? 'ssl://' : '') . $hostname;
+                
+                $context = stream_context_create();
+                stream_context_set_option($context, 'ssl', 'allow_self_signed', true);
+                stream_context_set_option($context, 'ssl', 'verify_peer', false);
+            }
+            
+            $sock = @fsockopen($hostname, $this->port, $errno, $errstr, $this->config['timeout']);
             if($sock)
             {
                 fclose($sock);
