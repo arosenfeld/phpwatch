@@ -8,6 +8,11 @@
             if(!$this->link)
                 return false;
             mysql_select_db($this->db);
+            
+            // Set Connection Charset
+            $this->query("SET NAMES 'latin1'");
+            $this->query("SET CHARACTER SET 'latin1'");
+            
             return true;
         }
 
